@@ -2,13 +2,14 @@
 @section('title', 'Giỏ Hàng')	
 @section('main')
 <script>
-    function updateCart(qty, rowId){
-    $.get('{{asset('cart/update')}}',
-    {qty:qty, rowId:rowId},
-            function(){
-            location.reload();
-            });
+    function updateCart(qty,rowId, slg,name){
+         $.get('{{asset('cart/update')}}',
+        {qty:qty, rowId:rowId, slg:slg},
+         function(){
+         location.reload();
+         });
     }
+    
 </script>
 
 <div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
@@ -27,7 +28,6 @@
         <div class="row">
             <div class="col-md-12 ftco-animate">
                 <div class="cart-list">
-                    <form>
                     <table class="table">
                         <thead class="thead-primary">
                             <tr class="text-center">
@@ -35,6 +35,7 @@
                                 <th>Ảnh mô tả</th>
                                 <th>Sản Phẩm</th>
                                 <th>Giá</th>
+                                <th>Giảm</th>
                                 <th>Số Lượng</th>
                                 <th>Thành Tiền</th>
                             </tr>
@@ -50,20 +51,25 @@
                                     <h3>{{$prod->name}}</h3>
                                 </td>
 
-                                <td class="price">{{number_format($prod->price,0,',','.')}} đ</td>
+                                <td class="price">{{number_format($prod->price / (100 - $prod->options->sale) * 100,0,',','.')}} đ</td>
+
+                                <td class="price" style="font-weight: bold; color: rgb(219, 204, 143);">{{number_format($prod->options->sale,0,',','.')}}%</td>
 
                                 <td class="quantity">
                                     <div class="input-group mb-3">
-                                        <input type="number" value="{{$prod->qty}}" onchange="updateCart(this.value,'{{$prod->rowId}}')" class="quantity form-control input-number">
+                                        <input type="number" id="number" value="{{$prod->qty}}" max="{{$prod->options->quality}}" onchange="updateCart(this.value,'{{$prod->rowId}}','{{$prod->options->quality}}','{{$prod->name}}')" class="quantity form-control input-number" maxlength="1" minlength="1">
+                                        <br><br>
+                                        <!-- @if(Session::has('error'))
+                                        <h4 style="font-weight: bold; color: rgb(219, 204, 143);">{{Session::get('error')}}</h4>
+                                        @endif -->
                                     </div>
                                 </td>
 
-                                <td class="total">{{number_format($prod->qty*$prod->price,0,',','.')}} đ</td>
+                                <td class="total" style="font-weight: bold;">{{number_format($prod->qty*$prod->price,0,',','.')}} đ</td>
                             </tr><!-- END TR-->
                             @endforeach
                         </tbody>
                     </table>
-                    </form>
                 </div>
             </div>
         </div>
@@ -85,10 +91,20 @@
                         <span>{{$total}} đ</span>
                     </p>
                 </div>
-                <p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Thanh toán</a></p>
+                <p class="text-center"><a href="{{asset('cart/checkout')}}" class="btn btn-primary py-3 px-4">Thanh toán</a></p>
             </div>
         </div>
     </div>
 </section>
+@else
+<section class="ftco-section ftco-cart">
+<div class="container">
+				<div class="row justify-content-center mb-3 pb-3">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+            <h2 class="mb-4">Không có mặt hàng nào trong giỏ</h2>
+          </div>
+        </div>   		
+    	</div>
+</section>    
 @endif
 @stop

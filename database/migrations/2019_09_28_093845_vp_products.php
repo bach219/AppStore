@@ -23,9 +23,9 @@ class VpProducts extends Migration
             $table->string('prod_accessories');
             $table->string('prod_condition');
             $table->string('prod_promotion');
-            $table->tinyInteger('prod_status');
             $table->text('prod_description');
             $table->tinyInteger('prod_featured');
+            $table->integer('prod_qty');
             $table->integer('prod_cate');
             $table->foreign('prod_cate')
                   ->references('cate_id')

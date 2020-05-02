@@ -1,12 +1,18 @@
 @extends('backend.master')
-@section('title', 'Edit User')	
+@section('title', 'Chỉnh sửa tài khoản')	
 @section('main')
-<div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-12">
+<h1 class="h3 mb-4 text-gray-800">Chỉnh sửa tài khoản</h1>
 
-        <div class="panel panel-primary">
-            <div class="panel-heading">Chỉnh sửa tài khoản</div>
-            <div class="panel-body">
+          <div class="row">
+
+            <div class="col-lg-12">
+
+              <!-- Circle Buttons -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Tài khoản cá nhân</h6>
+                </div>
+                <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     @csrf
                     @include('errors.note')
@@ -19,29 +25,51 @@
                         <input type="text" name="user" class="form-control" placeholder="Username" value="nguyenvana" required />
                     </div> -->
                     <div class="form-group">
+                        <label>Ảnh đại diện</label>
+                        <input  id="img" type="file" name="img" >
+					    <img id="avatar" class="thumbnail" width="300px" src="{{asset('../storage/app/avatarAdmin/'.$user->image)}}">
+                    </div>
+                    <div class="form-group">
+                        <label>Tên quản lí</label>
+                        <input type="text" name="name" class="form-control" placeholder="Username"  value="{{$user->name}}" required />
+                    </div>
+                    <div class="form-group">
                         <label>Email</label>
                         <input type="text" name="mail" class="form-control" placeholder="Email"  value="{{$user->email}}" required />
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="text" name="pass" class="form-control" placeholder="Password" value="{{$user->password}}" required />
+                        <label>Mật khẩu</label><br>
+                        <label class="mr-3"><input type="radio" name="change" value="0" checked required> Giữ nguyên</label>
+                        <label><input type="radio" name="change" value="1" required> Thay đổi</label>
+                        <input type="text" name="pass" class="form-control" placeholder="Password"   />
                     </div> 
                     <div class="form-group">
                         <label>Level</label>
                         <select name="level" class="form-control">
-                            <option value="1" <?php if ($user->level == 1) { ?> selected="selected" <?php } ?>>Admin</option>
-                            <option value="2" <?php if ($user->level == 2) { ?> selected="selected" <?php } ?>>Mod</option>
-                            <option value="3" <?php if ($user->level == 3) { ?> selected="selected" <?php } ?>>User</option>
+                            <option value="Admin" <?php if ($user->level == "Admin") { ?> selected="selected" <?php } ?>>Admin</option>
+                            <option value="Mod" <?php if ($user->level == "Mod") { ?> selected="selected" <?php } ?>>Mod</option>
+                            <option value="User" <?php if ($user->level == "User") { ?> selected="selected" <?php } ?>>User</option>
                         </select>
                     </div>
                     <input type="submit" name="submit" value="Sửa" class="btn btn-primary" />
                     <a href="{{asset('admin/user')}}" class="btn btn-danger">Hủy bỏ</a>
             </div>
             </form>
-            <div class="clearfix"></div>
         </div>
     </div>
 </div>
 </div><!--/.row-->
-</div>
 @stop
+@push('scripts')
+<script>
+    window.addEventListener('load', function() {
+      document.querySelector('input[type="file"]').addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+              var img = document.querySelector('#avatar');  // $('img')[0]
+              img.src = URL.createObjectURL(this.files[0]); 
+          }
+      });
+    });
+    
+</script>
+@endpush

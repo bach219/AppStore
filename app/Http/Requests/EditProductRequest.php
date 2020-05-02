@@ -25,6 +25,15 @@ class EditProductRequest extends FormRequest
     {
         return [
             //
+            'img'=>'image',
+            'name'=>'unique:vp_products,prod_name,'.$this->segment(4).',prod_id'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            //
+            'name.unique'=>'Tên sản phẩm đã bị trùng!'
         ];
     }
 }

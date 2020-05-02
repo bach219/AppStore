@@ -118,28 +118,25 @@
                 </div>
             </div>
 			@include('errors.note')
-			@foreach ($errors->all() as $message) 
-                                      {{$message}}
-                                 
-                                 @endforeach
+            </div>
             <div class="inputGroup inputGroup1">
                 <label for="loginEmail" id="loginEmailLabel">Email</label>
                 <input type="email" id="loginEmail" maxlength="254" name="email" value="{{old('email')}}" required />
                 <p class="helper helper1">Ex: hihi@email.com</p>
             </div>
             <div class="inputGroup inputGroup2">
-                <label for="loginPassword" id="loginPasswordLabel">Password</label>
+                <label for="loginPassword" id="loginPasswordLabel">Mật khẩu</label>
                 <input type="password" id="loginPassword" name="password" placeholder="*****" required />
-                <label id="showPasswordToggle" for="showPasswordCheck">Show
+                <label id="showPasswordToggle" for="showPasswordCheck">Hiện
                     <input id="showPasswordCheck" type="checkbox"/>
 
                     <div class="indicator"></div>
                 </label>
             </div>
             <div class="inputGroup inputGroup3">
-                <button id="login" name="Login" value="Login">Login</button>
+                <button id="login" name="Login" value="Login">Đăng nhập</button>
             </div>	
-            <p class="botto-text"> Designed by BACH</p>
+            <!-- <p class="botto-text"> Designed by BACH</p> -->
         </form>
 
         <!-- partial -->

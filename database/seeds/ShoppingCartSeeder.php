@@ -19,7 +19,7 @@ class ShoppingCartSeeder extends Seeder
          ],
          [
          	'cate_name' => 'Samsung',
-            'cate_slug' => Str::slug('Samsung,'-')
+            'cate_slug' => Str::slug('Samsung','-')
          ],
         ];
         DB::table('shopping_cart')->insert($data);

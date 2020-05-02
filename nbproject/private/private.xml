@@ -3,8 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/AppStore/resources/views/frontend/master.blade.php</file>
-            <file>file:/C:/xampp/htdocs/AppStore/resources/views/frontend/shop.blade.php</file>
+            <file>file:/C:/xampp/htdocs/AppStore/app/Http/Controllers/FrontendController.php</file>
         </group>
     </open-files>
 </project-private>

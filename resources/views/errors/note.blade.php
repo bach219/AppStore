@@ -1,7 +1,11 @@
 @if(Session::has('error'))
-    <p class="alert alert-danger">{{Session::get('error')}}</p>
+<h3><p class="alert alert-danger text-center">{{Session::get('error')}}</p></h3>
+@endif
+
+@if(Session::has('success'))
+<h3><p class="alert alert-success text-center">{{Session::get('success')}}</p></h3>
 @endif
 
 @foreach($errors->all() as $error)
-    <h2 style="text-align: center;"><p class="alert alert-danger">{{$error}}</p></h2>
+    <h2><p class="alert alert-danger text-center">{{$error}}</p></h2>
 @endforeach

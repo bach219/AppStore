@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\Hash;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -13,11 +13,11 @@ class UsersTableSeeder extends Seeder
     {
         //
         $data =[
-            ['email'=>'bach@gmail.com', 'password'=>bcrypt('123456'), 'level'=>1],
-            ['email'=>'long@gmail.com', 'password'=>bcrypt('123456'), 'level'=>2],
-            ['email'=>'linh@gmail.com', 'password'=>bcrypt('123456'), 'level'=>2],
-            ['email'=>'nam@gmail.com', 'password'=>bcrypt('123456'), 'level'=>2],
+            ['name'=>'Nguyễn Bachs', 'email'=>'bach@gmail.com', 'password'=>Hash::make('123456'), 'level'=>"Admin"],
+            ['name'=>'ahihi', 'email'=>'long@gmail.com', 'password'=>Hash::make('123456'), 'level'=>"Mod"],
+            ['name'=>'ahihi', 'email'=>'linh@gmail.com', 'password'=>Hash::make('123456'), 'level'=>"Mod"],
+            ['name'=>'ahihi', 'email'=>'nam@gmail.com', 'password'=>Hash::make('123456'), 'level'=>"Mod"],
         ];
-        DB::table('vp_users')->insert($data);
+        DB::table('users')->insert($data);
     }
 }

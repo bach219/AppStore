@@ -1,5 +1,5 @@
 @extends('backend.master')
-@section('title', 'Product')	
+@section('title', 'Sản phẩm')	
 @section('main')	
 <div >
     <!-- <div class="row">
@@ -8,57 +8,73 @@
             </div>
     </div>/.row -->
 
-    <div>
-        <div >
+    <h1 class="h3 mb-4 text-gray-800">Danh sách sản phẩm</h1>
+    <a href="{{asset('admin/product/add')}}" class="btn btn-primary">Thêm sản phẩm</a>
+    <br><br>
+    <div class="row">
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">Danh sách sản phẩm</div>
-                <div class="panel-body">
-                    <form method="post" enctype="multipart/form-data">
-                        @csrf
+        <div class="col-lg-12">
 
-                        <div class="bootstrap-table">
-                            <div class="table-responsive">
-                                <a href="{{asset('admin/product/add')}}" class="btn btn-primary">Thêm sản phẩm</a>
-                                <br><br>
-                                <table id="product" class="table table-bordered display" >				
-                                    <thead>
-                                        <tr class="bg-primary">
-                                            <th>ID</th>
-                                            <th width="30%">Tên Sản phẩm</th>
-                                            <th>Giá sản phẩm</th>
-                                            <th width="20%">Ảnh sản phẩm</th>
-                                            <th>Danh mục</th>
-                                            <th>Tùy chọn</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($prodList as $prod)														
-                                        <tr>
-                                            <td>{{$prod->prod_id}}</td>
-                                            <td>{{$prod->prod_name}}</td>
-                                            <td>{{number_format($prod->prod_price,0,',','.')}} VND</td>
-                                            <td>
-                                                <img width="200px" src="{{asset('/../storage/app/avatar/'.$prod->prod_img)}}" class="thumbnail">
-                                            </td>
-                                            <td>{{$prod->cate_name}}</td>
-                                            <td>
-                                                <a href="{{asset('admin/product/edit/'.$prod->prod_id)}}" class="btn btn-warning"><i class="fa fa-pencil glyphicon glyphicon-edit" aria-hidden="true"></i> Sửa</a>
-                                                <a href="{{asset('admin/product/delete/'.$prod->prod_id)}}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" class="btn btn-danger"><i class="fa fa-trash glyphicon glyphicon-trash" aria-hidden="true"></i> Xóa</a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>							
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </form>
+            <!-- Circle Buttons -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Sản phẩm</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="product" class="table table-bordered display" width="100%" cellspacing="0">	
+                        @include('errors.note')			
+                            <thead>
+                                <tr class="text-primary">
+                                    <th>ID</th>
+                                    <th width="20%">Tên Sản phẩm</th>
+                                    <th>Giá sản phẩm</th>
+                                    <th width="20%">Ảnh sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Có sẵn</th>
+                                    <th>Đã bán</th>
+                                    <th>Tùy chọn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($prodList as $prod)														
+                                <tr>
+                                    <td>{{$prod->prod_id}}</td>
+                                    <td>{{$prod->prod_name}}</td>
+                                    <td>{{number_format($prod->prod_price,0,',','.')}} VND</td>
+                                    <td>
+                                        <img width="200px" src="{{asset('/../storage/app/avatar/'.$prod->prod_img)}}" class="thumbnail">
+                                    </td>
+                                    <td>{{$prod->cate_name}}</td>
+                                    <td>{{$prod->prod_qty}}</td>
+                                    <?php $i = 0; ?>
+                                    @foreach($slg as $qua)
+                                    @if($qua->product_id == $prod->prod_id)
+                                        <td>{{$qua->quantity}}</td> <?php $i++; ?>
+                                    @endif
+                                    @endforeach
+                                    @if($i == 0)
+                                        <td>0</td>
+                                    @endif
+                                    <td>
+                                        <a href="{{asset('admin/product/edit/'.$prod->prod_id)}}" class="btn btn-warning"><i class="far fa-edit"></i> Sửa</a>
+                                        <a href="{{asset('admin/product/delete/'.$prod->prod_id)}}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" class="btn btn-danger"><i class="fa fa-trash glyphicon glyphicon-trash" aria-hidden="true"></i> Xóa</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>							
+                    </div>
                 </div>
             </div>
+
         </div>
-    </div><!--/.row-->
-</div>	<!--/.main-->
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
 
 @stop
 @push('scripts')

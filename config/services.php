@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'google' => [
+        'client_id' => '396860711610-04acma0dgvrjfitutb3ucfepbg01fcba.apps.googleusercontent.com',
+        'client_secret' => '3EdT9Jve5UzwTNulfE4-zCQz',
+        'redirect' => 'http://localhost/AppStore/public/auth/google/callback',
+    ],
 ];

@@ -24,14 +24,14 @@ class AddUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'=>'unique:vp_users,email'
+            'mail'=>'unique:users,email'
         ];
     }
     public function messages()
     {
         return [
             //
-            'email.unique'=>'Địa chỉ email đã bị trùng!'
+            'mail.unique'=>'Địa chỉ email đã bị trùng!'
         ];
     }
 }

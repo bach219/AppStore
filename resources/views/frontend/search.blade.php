@@ -2,11 +2,21 @@
 @section('title', 'Tìm kiếm')	
 @section('main')
 
+<div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="{{asset('/')}}">Home</a></span> <span>Search</span></p>
+                <h1 class="mb-0 bread">tìm kiếm</h1>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="ftco-section bg-light">
     	<div class="container">
 				<div class="row justify-content-center mb-3 pb-3">
           <div class="col-md-12 heading-section text-center ftco-animate">
-            <h2 class="mb-4">Kết quả tìm kiếm: <span>{{$search}}</span></h2>
+            <h2 class="mb-4">{{$quality}} Kết quả tìm kiếm: <span>{{$search}}</span></h2>
           </div>
         </div>   		
     	</div>
@@ -39,7 +49,7 @@
 	    					</div>
 	    					<p class="bottom-area d-flex px-3">
     							<a href="{{asset('cart/add/'.$featured->prod_id)}}" class="add-to-cart text-center py-2 mr-1"><span>Thêm vào giỏ <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="buy-now text-center py-2">Xem chi tiết<span><i class="ion-ios-cart ml-1"></i></span></a>
+    							<a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="buy-now text-center py-2">Xem chi tiết<span><i class="ion-ios-search ml-1"></i></span></a>
     						</p>
     					</div>
     				</div>

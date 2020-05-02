@@ -1,31 +1,41 @@
 @extends('backend.master')
-@section('title', 'Edit Product')	
+@section('title', 'Chỉnh sửa sản phẩm')	
 @section('main')
 		
-	<div>
-		<!-- <div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Sản phẩm</h1>
-			</div>
-		</div>/.row -->
-		
-		<div class="row">
-			<div class="col-xs-12 col-md-12 col-lg-12">
-				
-				<div class="panel panel-primary">
-					<div class="panel-heading">Sửa sản phẩm</div>
-					<div class="panel-body">
+<h1 class="h3 mb-4 text-gray-800">Chỉnh sửa sản phẩm</h1>
+
+          <div class="row">
+
+            <div class="col-lg-12">
+
+              <!-- Circle Buttons -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Chỉnh sửa sản phẩm</h6>
+                </div>
+                <div class="card-body">
 						<form method="post" enctype="multipart/form-data">
 							@csrf
-							<div class="row" style="margin-bottom:40px">
-								<div class="col-xs-8">
+							@include('errors.note')
 									<div class="form-group" >
 										<label>Tên sản phẩm</label>
 										<input required type="text" name="name" class="form-control" value="{{$product->prod_name}}">
 									</div>
 									<div class="form-group" >
+										<label>RAM(GB)</label>
+										<input required type="number" name="ram" class="form-control" value="{{$product->prod_ram}}">
+									</div>
+									<div class="form-group" >
+										<label>Bộ nhớ trong(GB)</label>
+										<input required type="number" name="hard" class="form-control" value="{{$product->prod_hardDrive}}">
+									</div>
+									<div class="form-group" >
 										<label>Giá sản phẩm</label>
 										<input required type="number" name="price" class="form-control" value="{{$product->prod_price}}">
+									</div>
+									<div class="form-group" >
+										<label>Giảm giá</label>
+										<input required type="number" name="sale" class="form-control" value="{{$product->prod_sale}}">
 									</div>
 									<div class="form-group" >
 										<label>Ảnh sản phẩm</label>
@@ -49,11 +59,8 @@
 										<input required type="text" name="condition" class="form-control" value="{{$product->prod_condition}}">
 									</div>
 									<div class="form-group" >
-										<label>Trạng thái</label>
-										<select required name="status" class="form-control">
-											<option value="1" @if($product->prod_status == 1) selected @endif>Còn hàng</option>
-											<option value="0" @if($product->prod_status == 0) selected @endif>Hết hàng</option>
-					                    </select>
+										<label>Số lượng</label>
+										<input required type="number" name="quality" class="form-control" value="{{$product->prod_qty}}">
 									</div>
 									<div class="form-group" >
 										<label>Miêu tả</label>
@@ -74,13 +81,23 @@
 									</div>
 									<input type="submit" name="submit" value="Cập nhật" class="btn btn-primary">
 									<a href="{{asset('admin/product')}}" class="btn btn-danger">Hủy bỏ</a>
-								</div>
-							</div>
 						</form>
 						
 					</div>
 				</div>
 			</div>
 		</div><!--/.row-->
-	</div>	<!--/.main-->
 	@stop
+@push('scripts')
+<script>
+    window.addEventListener('load', function() {
+      document.querySelector('input[type="file"]').addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+              var img = document.querySelector('#avatar');  // $('img')[0]
+              img.src = URL.createObjectURL(this.files[0]); 
+          }
+      });
+    });
+    
+</script>
+@endpush

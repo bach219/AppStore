@@ -26,14 +26,16 @@ class AddProductRequest extends FormRequest
         return [
             //
             'img'=>'image',
-            'name'=>'unique:vp_products,prod_name'
+            'name'=>'unique:vp_products,prod_name',
+            'description'=>'required'
         ];
     }
     public function messages()
     {
         return [
             //
-            'name.unique'=>'Tên sản phẩm đã bị trùng!'
+            'name.unique'=>'Tên sản phẩm đã bị trùng!',
+            'description.required' => 'Hãy chắc chắn đã nhập mô tả chi tiết sản phẩm'
         ];
     }
 }

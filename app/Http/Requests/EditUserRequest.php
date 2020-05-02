@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Auth;
 class EditUserRequest extends FormRequest
 {
     /**
@@ -24,7 +24,14 @@ class EditUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'mail'=>'unique:users,email,'.Auth::user()->id.',id'
+        ];
+    }
+    public function messages()
+    {
+        return [
             //
+            'mail.unique'=>'Địa chỉ email đã bị trùng!'
         ];
     }
 }

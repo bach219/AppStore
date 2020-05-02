@@ -2,8 +2,8 @@
 @section('title', 'Chi tiết sản phẩm')	
 @section('main')
 
-
 <style>
+#more {display: none;}
     body {
         font-family: Arial;
         margin: 0;
@@ -121,59 +121,24 @@
             <div class="col-lg-6 mb-5 ftco-animate">
 
                 <div class="container">
+                    <?php $i = 1 ?>
+                    @foreach($images as $img)
                     <div class="mySlides">
-                        <div class="numbertext">1 / 6</div>
-                        <a height="10px" width="70%" href="{{asset('../storage/app/avatar/'.$detail->prod_img)}}" class="image-popup prod-img-bg"><img src="{{asset('../storage/app/avatar/'.$detail->prod_img)}}" class="img-fluid" alt="Colorlib Template"></a>
+                        <div class="numbertext">{{$i}} / {{$countImg}}</div>
+                        <a height="10px" width="70%" href="{{asset('../storage/app/avatar/'.$img->image)}}" class="image-popup prod-img-bg"><img src="{{asset('../storage/app/avatar/'.$img->image)}}" class="img-fluid" alt="Colorlib Template"></a>
                     </div>
-
-                    <div class="mySlides">
-                        <div class="numbertext">2 / 6</div>
-                        <a height="10px" width="70%" href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                    </div>
-
-                    <div class="mySlides">
-                        <div class="numbertext">3 / 6</div>
-                        <a height="10px" width="70%" href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                    </div>
-
-                    <div class="mySlides">
-                        <div class="numbertext">4 / 6</div>
-                        <a height="10px" width="70%" href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                    </div>
-
-                    <div class="mySlides">
-                        <div class="numbertext">5 / 6</div>
-                        <a height="10px" width="70%" href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                    </div>
-
-                    <div class="mySlides">
-                        <div class="numbertext">6 / 6</div>
-                        <a height="10px" width="70%" href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                    </div>
+                    <?php $i ++; ?>
+                    @endforeach
 
                     <a class="prev" onclick="plusSlides(-1)">❮</a>
                     <a class="next" onclick="plusSlides(1)">❯</a>
-
-
+                    <br>
                     <div class="row">
+                    @foreach($images as $img)
                         <div class="column">
-                            <a href="{{asset('../storage/app/avatar/'.$detail->prod_img)}}" class="image-popup prod-img-bg"><img src="{{asset('../storage/app/avatar/'.$detail->prod_img)}}" class="img-fluid" alt="Colorlib Template"></a>
+                            <a href="{{asset('../storage/app/avatar/'.$img->image)}}" class="image-popup prod-img-bg"><img src="{{asset('../storage/app/avatar/'.$img->image)}}" class="img-fluid" alt="Colorlib Template"></a>
                         </div>
-                        <div class="column">
-                            <a href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                        </div>
-                        <div class="column">
-                            <a href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                        </div>
-                        <div class="column">
-                            <a href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                        </div>
-                        <div class="column">
-                            <a href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                        </div>    
-                        <div class="column">
-                            <a href="images/product-1.png" class="image-popup prod-img-bg"><img src="images/product-1.png" class="img-fluid" alt="Colorlib Template"></a>
-                        </div>
+                    @endforeach
                     </div>
                 </div>
             </div>
@@ -181,38 +146,70 @@
                 <h3>{{$detail->prod_name}}</h3>
                 <div class="rating d-flex">
                     <p class="text-left mr-4">
-                        <a href="#" class="mr-2">5.0</a>
+                        <?php
+                        $x = 0;
+                        if ($detail->prod_price <= 2000000)
+                            $x = 1;
+                        if ($detail->prod_price > 2000000 && $detail->prod_price <= 4000000)
+                            $x = 2;
+                        if ($detail->prod_price > 4000000 && $detail->prod_price <= 7000000)
+                            $x = 3;
+                        if ($detail->prod_price > 7000000 && $detail->prod_price <= 13000000)
+                            $x = 4;
+                        if ($detail->prod_price > 13000000)
+                            $x = 5;
+                        ?>
+                        <a href="#" class="mr-2">{{$x}}</a>
+                        @for ($i = 0; $i < $x; $i++)
                         <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        @endfor
                     </p>
                     <p class="text-left mr-4">
-                        <a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
+                        <a href="#" class="mr-2" style="color: #000;">{{$count}} <span style="color: #bbb;">Đánh giá</span></a>
                     </p>
                     <p class="text-left">
-                        <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
+                        <a href="#" class="mr-2" style="color: #000;">
+                            @foreach($quality as $qua)
+                            @if($qua->product_id == $detail->prod_id)
+                            {{$qua->quantity}} 
+                            @endif
+                            @endforeach
+                            <span style="color: #bbb;">Đã bán</span></a>
                     </p>
                 </div>
-                <p class="price"><span>{{number_format($detail->prod_price,0,',','.')}} đ</span></p>
+                @if($detail->prod_sale > 0)
+                <p><h4 style="color: rgb(219,204,143);">Giảm ngay: {{$detail->prod_sale}}%</h4></p>
+                <p>
+                    <span style="color: red; font-size: 30px;">{{number_format($detail->prod_price * (1 - $detail->prod_sale / 100),0,',','.')}} đ</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style="color: #000; text-decoration: line-through;">{{number_format($detail->prod_price,0,',','.')}} đ</span>
+                @else
+                <p class="price">
+                    <span>{{number_format($detail->prod_price * (1 - $detail->prod_sale / 100),0,',','.')}} đ</span>                   
+                @endif
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="btn btn-primary">{{$detail->prod_condition}}</span>
+                </p>
                 <p><h4>Bảo hành:  </h4>{{$detail->prod_warranty}}</p> 
                 <p><h4>Phụ kiện:  </h4>{{$detail->prod_accessories}}</p>
-                <p><h4>Tình trạng:</h4>{{$detail->prod_condition}}</p>
-                <p><h4>Khuyến mại:</h4>{!!$detail->prod_promotion!!}</p>
-                <p><h4>Hàng: 
-                    @if($detail->prod_status == 1) Còn hàng @endif
-                    @if($detail->prod_status == 0) Hết hàng @endif
-                   </h4>
-                </p>
+                <!-- <p><h4>Tình trạng:</h4>{{$detail->prod_condition}}</p> -->
+                @if($detail->prod_promotion != "")
+                <p><h4>Khuyến mãi:</h4>{!!$detail->prod_promotion!!}</p>
+                @endif
                 <div class="row mt-4">
                     <div class="w-100"></div>
                     <div class="col-md-12">
-                        <p style="color: #000;">80 piece available</p>
+                        <h4><p style="color: #000;">
+                                @if($detail->prod_qty > 0) {{$detail->prod_qty}} sản phẩm có sẵn
+                                @else Sản phẩm đã hết hàng @endif
+                            </p></h4>
                     </div>
                 </div>
-                <p><a href="{{asset('cart/add/'.$detail->prod_id)}}" class="btn btn-black py-3 px-5 mr-2">Thêm Vào Giỏ Hàng</a>
+                @if($detail->prod_qty != 0)
+                <p>
+                    <a href="{{asset('cart/add/'.$detail->prod_id)}}" class="btn btn-black py-3 px-5 mr-2">Thêm Vào Giỏ Hàng</a>
                 </p>
+                @endif
             </div>
         </div>
 
@@ -222,11 +219,11 @@
         <div class="row mt-5">
             <div class="col-md-12 nav-link-wrap">
                 <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link ftco-animate active mr-lg-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Description</a>
+                    <a class="nav-link ftco-animate active mr-lg-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Mô tả</a>
 
-                    <a class="nav-link ftco-animate mr-lg-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Manufacturer</a>
+                    <a class="nav-link ftco-animate mr-lg-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Nhà sản xuất</a>
 
-                    <a class="nav-link ftco-animate" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">Reviews</a>
+                    <a class="nav-link ftco-animate" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">Đánh giá</a>
 
                 </div>
             </div>
@@ -243,44 +240,62 @@
 
                     <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
                         <div class="p-4">
-                            <h3 class="mb-4">Nhà Sản Xuất</h3>
-                            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
+                            <h3 class="mb-4">Sản phẩm được sản xuất bởi {{$category[0]->cate_name}}</h3>
+                            {!! $category[0]->cate_present !!}
+                            <!-- <button onclick="myFunction()" id="myBtn" class="btn btn-primary">Đọc tiếp</button> -->
                         </div>
                     </div>
                     <div class="tab-pane fade" id="v-pills-3" role="tabpanel" aria-labelledby="v-pills-day-3-tab">
                         <div class="row p-4">
                             <div class="col-md-7">
-                                <h3 class="mb-4">{{$count}} Reviews</h3>
+                                @include('errors.note')
+                                <h3 class="mb-4">{{$count}} Bình luận</h3>
                                 @foreach($comments as $com)
+                                @if($com->com_check == 1)
                                 <div class="review">
-                                    <div class="user-img" style="background-image: url(images/person_1.jpg)"></div>
+                                    @if($com->com_image)
+                                    <div><img class="user-img" id="avatar" class="thumbnail" src="{{asset('../storage/app/avatarClient/'.$com->com_image)}}" ></div>
+                                    @else
+                                    <div class="user-img" style="background-image: url(images/noOne.png)"></div>
+                                    @endif
                                     <div class="desc">
                                         <h4>
                                             <span class="text-left">{{$com->com_name}}</span>
-                                            <span class="text-right">{{date('d/m/Y H:i', strtotime($com->created_at))}}</span>
+                                            <span class="text-right" style="cursor: pointer;"><i class="icon-reply"></i></span>
                                         </h4>
-                                        <p class="star">
-                                            <span>
-                                                <i class="ion-ios-star-outline"></i>
-                                                <i class="ion-ios-star-outline"></i>
-                                                <i class="ion-ios-star-outline"></i>
-                                                <i class="ion-ios-star-outline"></i>
-                                                <i class="ion-ios-star-outline"></i>
-                                            </span>
-                                            <span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
-                                        </p>
+                                        <div class="meta">{{date('d/m/Y H:i', strtotime($com->updated_at))}}</div>
                                         <p>{{$com->com_content}}</p>
                                     </div>
+                                    @if($com->com_reply != "")
+                                    <div class="desc">
+                                        @if(Auth::user()->image)
+                                        <div><img class="user-img" id="avatar" class="thumbnail" src="{{asset('../storage/app/avatarAdmin/'.Auth::user()->image)}}" ></div>
+                                        @else
+                                        <div class="user-img" style="background-image: url({{asset('../storage/app/avatarAdmin/admin.png')}})"></div>
+                                        @endif
+                                        <div class="desc">
+                                            <h4>
+                                                <span class="text-left">{{Auth::user()->level}}</span>
+                                                <span class="text-right">
+                                                <a href="#" class="reply"><i class="icon-reply"></i></a>
+                                                </span>
+                                            </h4>
+                                            <span class="meta">{{date('d/m/Y H:i', strtotime($com->created_at))}}</span>
+                                            <p>{!! $com->com_reply !!}</p>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
+                                @endif
                                 @endforeach
                             </div>
                             <form method="post" class="bg-white p-5 contact-form">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Name" id="name" name="name">
+                                    <input type="text" class="form-control" placeholder="Your Name" id="name" name="name" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->name}}" @endif>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Email" id="email" name="email">
+                                    <input type="text" class="form-control" placeholder="Your Email" id="email" name="email" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->email}}" @endif>
                                 </div>
                                 <div class="form-group">
                                     <textarea name="content" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
@@ -295,7 +310,7 @@
             </div>
         </div>
     </div>
-</section>				
+</section>		
 
 @stop
 
@@ -368,5 +383,6 @@
         dots[slideIndex - 1].className += " active";
         captionText.innerHTML = dots[slideIndex - 1].alt;
     }
+        
 </script>
 @endpush

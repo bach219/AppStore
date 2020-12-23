@@ -25,7 +25,7 @@
                                     <th>Ảnh minh họa</th>
                                     <th>Họ tên</th>
                                     <th>Email</th>
-                                    <th>Duyệt</th>
+                                    <th>Tình trạng</th>
                                     <th width="20%">Tùy chọn</th>
                                 </tr>
                             </thead>
@@ -34,13 +34,13 @@
                                 <tr>
                                     <td>{{$com->com_id}}</td>
                                     <td>{{$com->prod_name}}</td>
-                                    <td><img width="200px" src="{{asset('/../storage/app/avatar/'.$com->prod_img)}}" class="thumbnail"></td>
+                                    <td><img width="200px" src="{{asset('layout/images/avatar/'.$com->prod_img)}}" class="thumbnail"></td>
                                     <td>{{$com->com_name}}</td>
                                     <td>{{$com->com_email}}</td>
                                     @if($com->com_check == 1)
-                                    <td>Có</td>
+                                    <td style="color: green;">Đã duyệt</td>
                                     @else
-                                    <td>Không</td>
+                                    <td style="color: blue;">Đang chờ...</td>
                                     @endif
                                     <td>
                                         <a href="{{asset('admin/comment/edit/'.$com->com_id)}}" class="btn btn-warning"><i class="far fa-edit"></i></i> Duyệt</a>

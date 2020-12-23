@@ -16,46 +16,48 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
-            <h2 class="mb-4 billing-heading"><p>Thông tin khách hàng</p></h2>
+            <h2 class="mb-4 billing-heading"><p>Thông tin giao dịch</p></h2>
             <div class="col-xl-10 ftco-animate">
                 <form method="post" class="billing-form">
                     @csrf
                     @include('errors.note')
                     <div class="row align-items-end">
+                        @if(!Auth::guard('clients')->user())
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="radio" >
-                                    <label class="mr-3"><input type="radio" name="sex" value="Nam" @if(Auth::guard('clients')->user()) @if(Auth::guard('clients')->user()->sex == 'Nam') checked @endif @endif required> Anh </label>
-                                    <label><input type="radio" name="sex" value="Nữ" @if(Auth::guard('clients')->user()) @if(Auth::guard('clients')->user()->sex == 'Nữ') checked @endif @endif required> Chị</label>
+                                    <label class="mr-3"><input type="radio" name="sex" value="Nam" required> Anh </label>
+                                    <label><input type="radio" name="sex" value="Nữ" required> Chị</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Họ và Tên</label>
-                                <input type="text" name="name" class="form-control" placeholder="Your name" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->name}}" @endif required>
+                                <input type="text" name="name" class="form-control" placeholder="Your name" required>
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Địa chỉ nhận hàng</label>
-                                <textarea name="address" class="form-control" placeholder="House number and street name" cols="30" rows="5" @if(Auth::guard('clients')->user()) @endif required>@if(Auth::guard('clients')->user()) {{Auth::guard('clients')->user()->address}} @endif</textarea>
+                                <textarea name="address" class="form-control" placeholder="House number and street name" cols="30" rows="5" required></textarea>
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Số điện thoại liên lạc</label>
-                                <input type="number" name="phone" class="form-control" placeholder="Phone number" maxlength="10" minlength="10" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->phone}}" @endif required>
+                                <input type="number" name="phone" class="form-control" placeholder="Phone number" maxlength="10" minlength="10" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Địa chỉ Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->email}}" @endif required>
+                                <input type="email" name="email" class="form-control" placeholder="Email" required>
                             </div>
                         </div>
+                        @endif
                         <div class="w-100"></div>
                         <div class="col-md-12">
                             <div class="form-group">
@@ -115,7 +117,7 @@
                                 @foreach($product as $prod)
                                 <tr class="text-center">
                                     <td width="5%">{{$prod->qty}}</td>
-                                    <td width="10%"><img src="{{asset('/../storage/app/avatar/'.$prod->options->img)}}" width="100%" alt="Colorlib Template"></td>
+                                    <td width="10%"><img src="{{asset('layout/images/avatar/'.$prod->options->img)}}" width="100%" alt="Colorlib Template"></td>
                                     <td ><h5>{{$prod->name}}</h5></td>
                                     <td>{{number_format($prod->price,0,',','.')}} đ</td>
                                 </tr><!-- END TR-->

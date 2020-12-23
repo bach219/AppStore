@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                             @foreach($listBill as $bill)
-                            @if($bill->client_id == $id)
+                            @if($bill->client_id == $id && $bill->bill_check == 1)
                             <tr>
                                 <td>{{$bill->id}}</td>
                                 <td>{{$bill->date_order}}</td>
@@ -37,7 +37,7 @@
                                 <td>{{$bill->method}}</td>
                                 <td>{{$bill->note}}</td>
                                 <td>
-                                    <a href="{{asset('admin/client/detailBill/'.$id.'/'.$bill->id)}}" class="btn btn-warning"><i class="far fa-edit"></i> Chi tiết</a>
+                                    <a href="{{asset('admin/customer/edit/'.$bill->customer_id)}}" class="btn btn-warning"><i class="far fa-edit"></i> Chi tiết</a>
                                     <a href="{{asset('admin/client/deleteBill/'.$bill->id)}}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" class="btn btn-danger"><i class="fa fa-trash glyphicon glyphicon-trash" aria-hidden="true"></i> Xóa</a>
                                 </td>
                             </tr>

@@ -25,15 +25,15 @@ class LoginClientRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            // 'password' => 'required|min:6'
         ];
     }
     public function messages()
     {
         return [
-            'required' => 'Trường email, password bắt buộc nhập.',
-            'email' => 'Trường email phải có định dạng email',
-            'min' => 'Mật khẩu phải có ít nhất 6 kí tự'
+            'required' => 'Vui lòng nhập Email.',
+            'email' => 'Email không đúng định dạng.',
+            // 'min' => 'Mật khẩu phải có ít nhất 6 kí tự'
         ];
     }
 }

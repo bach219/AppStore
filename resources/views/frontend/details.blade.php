@@ -3,7 +3,7 @@
 @section('main')
 
 <style>
-#more {display: none;}
+    #more {display: none;}
     body {
         font-family: Arial;
         margin: 0;
@@ -101,6 +101,12 @@
     .demo:hover {
         opacity: 1;
     }
+    .mouse {
+    top: -40%;
+    }
+    .img-fluid {
+    max-width: 103%;
+    }
 </style>
 
 
@@ -125,7 +131,7 @@
                     @foreach($images as $img)
                     <div class="mySlides">
                         <div class="numbertext">{{$i}} / {{$countImg}}</div>
-                        <a height="10px" width="70%" href="{{asset('../storage/app/avatar/'.$img->image)}}" class="image-popup prod-img-bg"><img src="{{asset('../storage/app/avatar/'.$img->image)}}" class="img-fluid" alt="Colorlib Template"></a>
+                        <a href="{{asset('layout/images/avatar/'.$img->image)}}" class="image-popup prod-img-bg"><img src="{{asset('layout/images/avatar/'.$img->image)}}" class="img-fluid" alt="Colorlib Template"></a>
                     </div>
                     <?php $i ++; ?>
                     @endforeach
@@ -134,11 +140,11 @@
                     <a class="next" onclick="plusSlides(1)">❯</a>
                     <br>
                     <div class="row">
-                    @foreach($images as $img)
+                        @foreach($images as $img)
                         <div class="column">
-                            <a href="{{asset('../storage/app/avatar/'.$img->image)}}" class="image-popup prod-img-bg"><img src="{{asset('../storage/app/avatar/'.$img->image)}}" class="img-fluid" alt="Colorlib Template"></a>
+                            <a href="{{asset('layout/images/avatar/'.$img->image)}}" class="image-popup prod-img-bg"><img src="{{asset('layout/images/avatar/'.$img->image)}}" class="img-fluid" alt="Colorlib Template"></a>
                         </div>
-                    @endforeach
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -165,16 +171,22 @@
                         @endfor
                     </p>
                     <p class="text-left mr-4">
-                        <a href="#" class="mr-2" style="color: #000;">{{$count}} <span style="color: #bbb;">Đánh giá</span></a>
+                        @if($count != 0)
+                            <a href="#" class="mr-2" style="color: #000;">{{$count}} <span style="color: #bbb;">Đánh giá</span></a>
+                        @endif
                     </p>
                     <p class="text-left">
-                        <a href="#" class="mr-2" style="color: #000;">
+                        
                             @foreach($quality as $qua)
-                            @if($qua->product_id == $detail->prod_id)
-                            {{$qua->quantity}} 
-                            @endif
+                                @if($qua->product_id == $detail->prod_id)
+                                    @if($qua->quantity != 0)
+                                        <a href="#" class="mr-2" style="color: #000;">
+                                            {{$qua->quantity}} <span style="color: #bbb;">Đã bán</span>
+                                        </a>
+                                    @endif
+                                @endif
                             @endforeach
-                            <span style="color: #bbb;">Đã bán</span></a>
+                            
                     </p>
                 </div>
                 @if($detail->prod_sale > 0)
@@ -183,15 +195,19 @@
                     <span style="color: red; font-size: 30px;">{{number_format($detail->prod_price * (1 - $detail->prod_sale / 100),0,',','.')}} đ</span>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span style="color: #000; text-decoration: line-through;">{{number_format($detail->prod_price,0,',','.')}} đ</span>
-                @else
+                    @else
                 <p class="price">
                     <span>{{number_format($detail->prod_price * (1 - $detail->prod_sale / 100),0,',','.')}} đ</span>                   
-                @endif
+                    @endif
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @isset($detail->prod_condition)
                     <span class="btn btn-primary">{{$detail->prod_condition}}</span>
+                    @endisset
                 </p>
                 <p><h4>Bảo hành:  </h4>{{$detail->prod_warranty}}</p> 
+                @isset($detail->prod_accessories)
                 <p><h4>Phụ kiện:  </h4>{{$detail->prod_accessories}}</p>
+                @endisset
                 <!-- <p><h4>Tình trạng:</h4>{{$detail->prod_condition}}</p> -->
                 @if($detail->prod_promotion != "")
                 <p><h4>Khuyến mãi:</h4>{!!$detail->prod_promotion!!}</p>
@@ -249,12 +265,17 @@
                         <div class="row p-4">
                             <div class="col-md-7">
                                 @include('errors.note')
+                                @if($count == 0)
+                                <h3 class="mb-4">Hiện chưa có bình luận nào</h3>
+                                @else
                                 <h3 class="mb-4">{{$count}} Bình luận</h3>
+                                @endif
+                                
                                 @foreach($comments as $com)
                                 @if($com->com_check == 1)
                                 <div class="review">
                                     @if($com->com_image)
-                                    <div><img class="user-img" id="avatar" class="thumbnail" src="{{asset('../storage/app/avatarClient/'.$com->com_image)}}" ></div>
+                                    <div><img class="user-img" id="avatar" class="thumbnail" src="{{asset('layout/images/avatarClient/'.$com->com_image)}}" ></div>
                                     @else
                                     <div class="user-img" style="background-image: url(images/noOne.png)"></div>
                                     @endif
@@ -268,16 +289,16 @@
                                     </div>
                                     @if($com->com_reply != "")
                                     <div class="desc">
-                                        @if(Auth::user()->image)
-                                        <div><img class="user-img" id="avatar" class="thumbnail" src="{{asset('../storage/app/avatarAdmin/'.Auth::user()->image)}}" ></div>
+                                        @if($com->image)
+                                        <div><img class="user-img" id="avatar" class="thumbnail" src="{{asset('layout/images/avatarAdmin/'.$com->image)}}" ></div>
                                         @else
-                                        <div class="user-img" style="background-image: url({{asset('../storage/app/avatarAdmin/admin.png')}})"></div>
+                                        <div class="user-img" style="background-image: url({{asset('layout/images/avatarAdmin/admin.png')}})"></div>
                                         @endif
                                         <div class="desc">
                                             <h4>
-                                                <span class="text-left">{{Auth::user()->level}}</span>
+                                                <span class="text-left">{{$com->name}} - {{$com->level}}</span>
                                                 <span class="text-right">
-                                                <a href="#" class="reply"><i class="icon-reply"></i></a>
+                                                    <a href="#" class="reply"><i class="icon-reply"></i></a>
                                                 </span>
                                             </h4>
                                             <span class="meta">{{date('d/m/Y H:i', strtotime($com->created_at))}}</span>
@@ -291,17 +312,19 @@
                             </div>
                             <form method="post" class="bg-white p-5 contact-form">
                                 @csrf
+                                @if(!Auth::guard('clients')->user())
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Name" id="name" name="name" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->name}}" @endif>
+                                    <input type="text" class="form-control" placeholder="Your Name" id="name" name="name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Email" id="email" name="email" @if(Auth::guard('clients')->user()) value="{{Auth::guard('clients')->user()->email}}" @endif>
+                                    <input type="email" class="form-control" placeholder="Your Email" id="email" name="email">
                                 </div>
+                                @endif
                                 <div class="form-group">
                                     <textarea name="content" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
+                                    <input type="submit" value="Bình luận" class="btn btn-primary py-3 px-5">
                                 </div>
                             </form>
                         </div>
@@ -383,6 +406,6 @@
         dots[slideIndex - 1].className += " active";
         captionText.innerHTML = dots[slideIndex - 1].alt;
     }
-        
+
 </script>
 @endpush

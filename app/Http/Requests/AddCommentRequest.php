@@ -31,8 +31,8 @@ class AddCommentRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => 'Trường email, password bắt buộc nhập.',
-            'email' => 'Trường email phải có định dạng email'
+            'required' => 'Hãy nhập bình luận.',
+            'email' => 'Hãy nhập đúng định dạng Email.'
         ];
     }
 }

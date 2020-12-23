@@ -57,9 +57,11 @@ class ProductController extends Controller {
             $product->prod_qty = $request->quality;
             $product->prod_description = $request->description;
             $product->prod_cate = $request->cate;
+            $product->prod_func = $request->func;
             $product->prod_featured = $request->featured;
             $product->save();
             $request->img->storeAs('avatar', $filename);
+            
             return back()->with('success', 'Thêm sản phẩm thành công');
         } catch (ModelNotFoundException $e) {
             echo $e->getMessage();
@@ -92,6 +94,7 @@ class ProductController extends Controller {
             $arr['prod_qty'] = $request->quality;
             $arr['prod_description'] = $request->description;
             $arr['prod_cate'] = $request->cate;
+            $arr['prod_func'] = $request->func;
             $arr['prod_featured'] = $request->featured;
             if ($request->hasFile('img')) {
                 $img = $request->img->getClientOriginalName();

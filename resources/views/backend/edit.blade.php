@@ -27,10 +27,10 @@
                     <div class="form-group">
                         <label>Ảnh đại diện</label>
                         <input  id="img" type="file" name="img" >
-					    <img id="avatar" class="thumbnail" width="300px" src="{{asset('../storage/app/avatarAdmin/'.$user->image)}}">
+					    <img id="avatar" class="thumbnail" width="300px" src="{{asset('layout/images/avatarAdmin/'.$user->image)}}">
                     </div>
                     <div class="form-group">
-                        <label>Tên quản lí</label>
+                        <label>Tên</label>
                         <input type="text" name="name" class="form-control" placeholder="Username"  value="{{$user->name}}" required />
                     </div>
                     <div class="form-group">
@@ -44,12 +44,16 @@
                         <input type="text" name="pass" class="form-control" placeholder="Password"   />
                     </div> 
                     <div class="form-group">
-                        <label>Level</label>
+                        <label>Chức vụ</label>
+                        @if(Auth::user()->level == "Admin" && $id != 1)
                         <select name="level" class="form-control">
                             <option value="Admin" <?php if ($user->level == "Admin") { ?> selected="selected" <?php } ?>>Admin</option>
                             <option value="Mod" <?php if ($user->level == "Mod") { ?> selected="selected" <?php } ?>>Mod</option>
-                            <option value="User" <?php if ($user->level == "User") { ?> selected="selected" <?php } ?>>User</option>
+                            <option value="Sale" <?php if ($user->level == "User") { ?> selected="selected" <?php } ?>>Sale</option>
                         </select>
+                        @else
+                        : {{$user->level}}
+                        @endif
                     </div>
                     <input type="submit" name="submit" value="Sửa" class="btn btn-primary" />
                     <a href="{{asset('admin/user')}}" class="btn btn-danger">Hủy bỏ</a>

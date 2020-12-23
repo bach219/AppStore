@@ -24,7 +24,10 @@ class GalleryController extends Controller {
     public function postGallery(Request $request) {
         try {
             if ($request->submit == "Thêm") {
-                $filename = $request->img->getClientOriginalName();
+                if ($request->hasFile('img')) 
+                    $filename = $request->img->getClientOriginalName();
+                else
+                    return back()->with('error', 'Hãy chọn file ảnh trước khi thêm mới!');
                 $gallery = new Gallery;
                 $gallery->image = $filename;
                 $gallery->product_id = $request->name;
@@ -39,6 +42,8 @@ class GalleryController extends Controller {
                 $arr['image'] = $img;
                 $request->img->storeAs('avatar', $img);
             }
+            else
+                return back()->with('error', 'Hãy chọn file ảnh trước khi chỉnh sửa!');
             $gallery::where('id', $request->id)->update($arr);
             return back()->with('success', 'Thay ảnh ID = ' . $request->id . 'thành công!');
         } catch (ModelNotFoundException $e) {

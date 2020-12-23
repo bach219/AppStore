@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Contact;
 use Mail;
+use Auth;
 
 class ContactController extends Controller {
 
@@ -22,6 +23,7 @@ class ContactController extends Controller {
         try {
             $contact = new Contact;
             $arr['con_check'] = 1;
+            $arr['con_user'] = Auth::user()->id;
             $contact::where('con_id', $request->id)->update($arr);
             return back();
         } catch (ModelNotFoundException $e) {

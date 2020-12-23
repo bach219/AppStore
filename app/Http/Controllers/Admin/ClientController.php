@@ -31,7 +31,8 @@ class ClientController extends Controller {
             $data['id'] = $id;
             $data['listBill'] = Bill::join('vp_customers', 'vp_bills.customer_id', '=', 'vp_customers.id')
                     ->join('vp_bill_details', 'vp_bills.id', '=', 'vp_bill_details.bill_id')
-                    ->select('vp_bills.*', 'vp_bill_details.*', 'vp_customers.*')
+                    ->select('vp_bills.*', 'vp_customers.client_id')
+                    ->distinct()
                     ->get();
 
             return view('backend.editclient', $data);

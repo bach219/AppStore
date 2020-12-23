@@ -1,7 +1,7 @@
 @extends('backend.master')
 @section('title', 'Thêm sản phẩm')	
 @section('main')
-<h1 class="h3 mb-4 text-gray-800">Chỉnh sửa tài khoản</h1>
+<h1 class="h3 mb-4 text-gray-800">Thêm sản phẩm</h1>
 
           <div class="row">
 
@@ -10,7 +10,7 @@
               <!-- Circle Buttons -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Chỉnh sửa tài khoản</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Mẫu sản phẩm</h6>
                 </div>
                 <div class="card-body">
 						<form method="post" enctype="multipart/form-data">
@@ -22,11 +22,11 @@
 									</div>
 									<div class="form-group" >
 										<label>RAM(GB)</label>
-										<input required type="number" name="ram" class="form-control">
+										<input  type="number" name="ram" class="form-control">
 									</div>
 									<div class="form-group" >
 										<label>Bộ nhớ trong(GB)</label>
-										<input required type="number" name="hard" class="form-control">
+										<input  type="number" name="hard" class="form-control">
 									</div>
 									<div class="form-group" >
 										<label>Giá sản phẩm</label>
@@ -43,7 +43,7 @@
 									</div>
 									<div class="form-group" >
 										<label>Phụ kiện</label>
-										<input required type="text" name="accessories" class="form-control">
+										<input  type="text" name="accessories" class="form-control">
 									</div>
 									<div class="form-group" >
 										<label>Bảo hành</label>
@@ -55,7 +55,7 @@
 									</div>
 									<div class="form-group" >
 										<label>Tình trạng</label>
-										<input required type="text" name="condition" class="form-control">
+										<input  type="text" name="condition" class="form-control">
 									</div>
 									<div class="form-group" >
 										<label>Số lượng</label>
@@ -66,12 +66,20 @@
 										<textarea class="ckeditor" required name="description"></textarea>
 									</div>
 									<div class="form-group" >
-										<label>Danh mục</label>
+										<label>Thương hiệu</label>
 										<select required name="cate" class="form-control">
 											@foreach($cateList as $cate)
 											<option value="{{$cate->cate_id}}">{{$cate->cate_name}}</option>
 											@endforeach
-					                    </select>
+					          </select>
+									</div>
+									<div class="form-group" >
+										<label>Danh mục</label>
+										<select required name="func" class="form-control">
+											@foreach($function as $func)
+											<option value="{{$func->func_id}}">{{$func->func_name}}</option>
+											@endforeach
+					          </select>
 									</div>
 									<div class="form-group" >
 										<label>Sản phẩm nổi bật</label><br>

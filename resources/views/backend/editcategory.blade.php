@@ -1,8 +1,8 @@
 @extends('backend.master')	
-	@section('title', 'Chỉnh sửa danh mục')
+	@section('title', 'Chỉnh sửa thương hiệu')
 	@section('main')
 		
-<h1 class="h3 mb-4 text-gray-800">Chỉnh sửa danh mục</h1>
+<h1 class="h3 mb-4 text-gray-800">Chỉnh sửa thương hiệu</h1>
 
           <div class="row">
 
@@ -11,20 +11,20 @@
               <!-- Circle Buttons -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Chỉnh sửa danh mục</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Chỉnh sửa thương hiệu</h6>
                 </div>
                 <div class="card-body">
 							<form method="post" accept-charset="utf-8" enctype="multipart/form-data">
 								@csrf
 							    <div class="form-group">
 							    	@include('errors.note')
-							    	<label>Tên danh mục:</label>
-    						    	<input type="text" name="name" class="form-control" placeholder="Tên danh mục..."  required value="{{$cate->cate_name}}">    
+							    	<label>Tên thương hiệu:</label>
+    						    	<input type="text" name="name" class="form-control" placeholder="Tên thương hiệu..."  required value="{{$cate->cate_name}}">    
 							    </div>    
 						        <div class="form-group">
                                     <label>Ảnh đại diện:</label>
                                     <input type="file" name="img">
-                                    <img id="avatar" class="thumbnail" width="300px" src="{{asset('/../storage/app/avatarCategory/'.$cate->cate_image)}}">
+                                    <img id="avatar" class="thumbnail" width="300px" src="{{asset('layout/images/avatarCategory/'.$cate->cate_image)}}">
                                 </div>
                                 <div class="form-group">
                                     <label>Giới thiệu:</label>

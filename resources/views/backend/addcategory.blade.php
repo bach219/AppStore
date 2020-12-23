@@ -4,7 +4,7 @@
 @section('main')
 
 <div>
-    <h1 class="h3 mb-4 text-gray-800">Thêm danh mục</h1>
+    <h1 class="h3 mb-4 text-gray-800">Thêm thương hiệu</h1>
 
     <div class="row">
 
@@ -13,15 +13,15 @@
             <!-- Circle Buttons -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Mẫu danh mục</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Mẫu thương hiệu</h6>
                 </div>
                 <div class="card-body">
                     <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
                         @csrf
                         @include('errors.note')
                         <div class="form-group">
-                            <label>Tên danh mục:</label>
-                            <input required type="text" name="name" class="form-control" placeholder="Tên danh mục...">
+                            <label>Tên thương hiệu:</label>
+                            <input required type="text" name="name" class="form-control" placeholder="Tên thương hiệu...">
                         </div>
                         <div class="form-group">
                             <label>Ảnh đại diện:</label>

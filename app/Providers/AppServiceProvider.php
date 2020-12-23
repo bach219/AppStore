@@ -9,6 +9,8 @@ use App\Model\Product;
 use App\Model\Bill_Detail;
 use App\Model\Bill;
 use App\Model\Customer;
+use App\Model\Comment;
+use App\Model\Functionality;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -31,13 +33,20 @@ class AppServiceProvider extends ServiceProvider
                                           ->select('vp_bills.bill_check')
                                           ->where('vp_bills.bill_check',0)
                                           ->count();
-        $data['product'] = Product::all();
+        $data['checkComment'] = Comment::where('com_check',0)->get();
+        $data['countComment'] = Comment::where('com_check',0)->count();
+        $data['productComment'] = Product::all();
         $data['customer'] = Customer::all();
         $data['checkProduct'] = Product::where('prod_qty','<=',5)->take(6)->get();
         $data['countCheckProduct'] = Product::where('prod_qty','<=',5)->count();
         $data['checkMail'] = Contact::where('con_check',0)->take(6)->get();
         $data['countCheckMail'] = Contact::where('con_check',0)->count();
         $data['categories'] = Category::all();
+        $data['function'] = Functionality::all();
+        $data['functionPro'] = Functionality::join('vp_products', 'vp_products.prod_func', '=', 'vp_functionality.func_id')
+                                           ->select('vp_functionality.func_name','vp_functionality.func_id','vp_functionality.func_slug')
+                                           ->groupBy('vp_functionality.func_id','vp_functionality.func_name','vp_functionality.func_slug')
+                                           ->get();
         view()->share($data);
     }
 

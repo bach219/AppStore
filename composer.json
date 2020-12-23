@@ -11,6 +11,8 @@
         "laravel/framework": "5.7.*",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^1.0",
+        "lcobucci/jwt": "3.3.3",
+        "tymon/jwt-auth": "^1.0",
         "yajra/laravel-datatables": "1.2"
     },
     "require-dev": {

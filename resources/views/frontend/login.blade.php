@@ -18,27 +18,27 @@
         <div class="row justify-content-center">
             <div class="col-xl-6 ftco-animate">
             <h3 class="mb-4 text-center">Thông tin đăng nhập</h3>
-                <form method="post" class="bg-white p-5 contact-form">
+                <form method="post" class="bg-white p-5 contact-form" id="loginForm">
                     @csrf
                     @include('errors.note')
                     <div class="row align-items-end">
                         <div class="col-md-12">
                             <div>
                                 <label>Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="VD: hihi@gmail.com" required>
+                                <input type="text" name="email" id="email" class="form-control" placeholder="VD: hihi@gmail.com"  >
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="col-md-12">
                             <div>
                                 <label>Mật khẩu</label>
-                                <input type="password" name="password" class="form-control" placeholder="*****" required>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="*****" >
                             </div>
                         </div>
                         
                         <div class="col-md-12">
                             <div><br>
-                                <input type="submit" value="Đăng nhập" class="btn btn-primary py-3 px-10 col-md-12">
+                                <input type="submit" id="submit" name="submit" value="Đăng nhập" class="btn btn-primary py-3 px-10 col-md-12">
                             </div>
                         </div>
 
@@ -54,3 +54,30 @@
     </div>
 </section>
 @stop
+{{-- @push('scripts')
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$("#loginForm").validate({
+				rules: {
+					email: {
+						required: true,
+					},
+					password: {
+						required: true,
+					},
+				
+				},
+				messages: {
+					email: {
+						required: "Bạn chưa nhập email",
+					},
+					password: {
+						required: "Vui lòng nhập mật khẩu",
+					},
+				
+				},
+			
+			});
+		});
+		</script>
+@endpush --}}

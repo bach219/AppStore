@@ -7,7 +7,18 @@
         <div class="row no-gutters slider-text align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate text-center">
                 <p class="breadcrumbs"><span class="mr-2"><a href="{{asset('/')}}">Home</a></span> <span>Shop</span></p>
-                <h1 class="mb-0 bread">gian hàng</h1>
+                <h1 class="mb-0 bread">
+                    @if(isset($id)) 
+                        @foreach ($function as $func)
+                            @if($func->func_id == $id)
+                                {{$func->func_name}} 
+                                @break 
+                            @endif
+                        @endforeach
+                    @else
+                        gian hàng    
+                    @endif
+                </h1>
             </div>
         </div>
     </div>
@@ -24,7 +35,7 @@
                     @foreach($Products as $featured)
                     <div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex" id="sp">
                         <div class="product d-flex flex-column">
-                            <a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="img-prod"><img class="img-fluid" src="{{asset('/../storage/app/avatar/'.$featured->prod_img)}}" alt="Colorlib Template">
+                            <a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="img-prod"><img class="img-fluid" src="{{asset('layout/images/avatar/'.$featured->prod_img)}}" alt="Colorlib Template">
                                 <div class="overlay"></div>
                                 @if($featured->prod_sale > 0)
                                 <span class="status">{{$featured->prod_sale}}% Off</span>
@@ -104,19 +115,19 @@
                                     <div class="panel-body">
                                         <ul>
                                             <li>
-                                                <input type="checkbox" class="price" name="price[]" value="1" <?php if($gia == '1') {?> checked <?php } ?>> Dưới 2 triệu
+                                                <input type="checkbox" class="price" name="price[]" value="1" <?php if($gia == '1') {?> checked <?php } ?>> Dưới 2 triệu (1<span class="ion-ios-star-outline"></span>)
                                             </li>
                                             <li>
-                                                <input type="checkbox" class="price" name="price[]" value="2" <?php if($gia == '2') {?> checked <?php } ?>> Từ 2 - 4 triệu
+                                                <input type="checkbox" class="price" name="price[]" value="2" <?php if($gia == '2') {?> checked <?php } ?>> Từ 2 - 4 triệu (2<span class="ion-ios-star-outline"></span>)
                                             </li>
                                             <li>
-                                                <input type="checkbox" class="price" name="price[]" value="3" <?php if($gia == '3') {?> checked <?php } ?>> Từ 4 - 7 triệu
+                                                <input type="checkbox" class="price" name="price[]" value="3" <?php if($gia == '3') {?> checked <?php } ?>> Từ 4 - 7 triệu (3<span class="ion-ios-star-outline"></span>)
                                             </li>
                                             <li>
-                                                <input type="checkbox" class="price" name="price[]" value="4" <?php if($gia == '4') {?> checked <?php } ?>> Từ 7 - 13 triệu
+                                                <input type="checkbox" class="price" name="price[]" value="4" <?php if($gia == '4') {?> checked <?php } ?>> Từ 7 - 13 triệu (4<span class="ion-ios-star-outline"></span>)
                                             </li>
                                             <li>
-                                                <input type="checkbox" class="price" name="price[]" value="5" <?php if($gia == '5') {?> checked <?php } ?>> Trên 13 triệu
+                                                <input type="checkbox" class="price" name="price[]" value="5" <?php if($gia == '5') {?> checked <?php } ?>> Trên 13 triệu (5<span class="ion-ios-star-outline"></span>)
                                             </li>
                                         </ul>
                                     </div>
@@ -142,7 +153,13 @@
                                 </div>
                             </div>
                             
-                            
+                            {{-- {{$RAM}} --}}
+                            {{-- @if ($ramGB != []) --}}
+                            <?php 
+                            $ram = json_decode($RAM[0], true);
+                            $drive = json_decode($HARD[0], true);
+                            ?>
+                            @if ($ram['prod_ram'] != null)
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingFour">
                                     <h4 class="panel-title">
@@ -162,6 +179,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
+                            
+                            @if ($drive['prod_hardDrive'] != null)
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingFive">
                                     <h4 class="panel-title">
@@ -181,6 +201,8 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
+
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingTwo">
                                     <h4 class="panel-title">
@@ -242,30 +264,37 @@
 <script>
 
     $(document).ready(function () {
-        <?php 
-            function currentUrl($server){
-                //Figure out whether we are using http or https.
-                $http = 'http';
-                //If HTTPS is present in our $_SERVER array, the URL should
-                //start with https:// instead of http://
-                if(isset($server['HTTPS'])){
-                    $http = 'https';
-                }
-                //Get the HTTP_HOST.
-                $host = $server['HTTP_HOST'];
-                //Get the REQUEST_URI. i.e. The Uniform Resource Identifier.
-                $requestUri = $server['REQUEST_URI'];
-                //Finally, construct the full URL.
-                //Use the function htmlentities to prevent XSS attacks.
-                return htmlentities($host) . htmlentities($requestUri);
-            }
+        // <?php 
+        //     function currentUrl($server){
+        //         //Figure out whether we are using http or https.
+        //         $http = 'http';
+        //         //If HTTPS is present in our $_SERVER array, the URL should
+        //         //start with https:// instead of http://
+        //         if(isset($server['HTTPS'])){
+        //             $http = 'https';
+        //         }
+        //         //Get the HTTP_HOST.
+        //         $host = $server['HTTP_HOST'];
+        //         //Get the REQUEST_URI. i.e. The Uniform Resource Identifier.
+        //         $requestUri = $server['REQUEST_URI'];
+        //         //Finally, construct the full URL.
+        //         //Use the function htmlentities to prevent XSS attacks.
+        //         return htmlentities($host) . htmlentities($requestUri);
+        //     }
              
-            $url = currentUrl($_SERVER);
-        ?>
+        //     $url = currentUrl($_SERVER);
+        // ?>
         
         var link = '{{asset('shop')}}?';
         var x = 0;
         var categories, sort, ram, hard;
+
+        <?php if(isset($id)) { ?>
+            var id = {{$id}};
+            var link = '{{asset('shop')}}/'+id+'?';
+        <?php } ?>
+
+        
         $('.cate').click(function () {
             x ++;
             categories = [];

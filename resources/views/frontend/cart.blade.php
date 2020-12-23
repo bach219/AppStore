@@ -2,14 +2,9 @@
 @section('title', 'Giỏ Hàng')	
 @section('main')
 <script>
-    function updateCart(qty,rowId, slg,name){
-         $.get('{{asset('cart/update')}}',
-        {qty:qty, rowId:rowId, slg:slg},
-         function(){
-         location.reload();
-         });
+    function updateCart(qty, rowId, slg, name, id){
+    window.location.assign("{{asset('cart/update')}}" + "/" + qty + "/" + rowId + "/" + slg + "/" + name + "/" + id)
     }
-    
 </script>
 
 <div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
@@ -45,7 +40,7 @@
                             <tr class="text-center">
                                 <td class="product-remove"><a href="{{asset('cart/delete/'.$prod->rowId)}}"><span class="ion-ios-close"></span></a></td>
 
-                                <td class="image-prod"><div class="img" style="background-image:url({{asset('../storage/app/avatar/'.$prod->options->img)}});"></div></td>
+                                <td class="image-prod"><div class="img" style="background-image:url({{asset('layout/images/avatar/'.$prod->options->img)}}); background-size: contain;"></div></td>
 
                                 <td class="product-name">
                                     <h3>{{$prod->name}}</h3>
@@ -57,11 +52,11 @@
 
                                 <td class="quantity">
                                     <div class="input-group mb-3">
-                                        <input type="number" id="number" value="{{$prod->qty}}" max="{{$prod->options->quality}}" onchange="updateCart(this.value,'{{$prod->rowId}}','{{$prod->options->quality}}','{{$prod->name}}')" class="quantity form-control input-number" maxlength="1" minlength="1">
+                                        <input type="number" id="number" value="{{$prod->qty}}"  onchange="updateCart(this.value,'{{$prod->rowId}}','{{$prod->options->quality}}','{{$prod->name}}','{{$prod->id}}')" class="quantity form-control input-number" maxlength="1" minlength="1">
                                         <br><br>
-                                        <!-- @if(Session::has('error'))
-                                        <h4 style="font-weight: bold; color: rgb(219, 204, 143);">{{Session::get('error')}}</h4>
-                                        @endif -->
+                                        @if(Session::has('id') && Session::get('id') == $prod->id)
+                                        @include('errors.note')
+                                        @endif
                                     </div>
                                 </td>
 
@@ -98,13 +93,13 @@
 </section>
 @else
 <section class="ftco-section ftco-cart">
-<div class="container">
-				<div class="row justify-content-center mb-3 pb-3">
-          <div class="col-md-12 heading-section text-center ftco-animate">
-            <h2 class="mb-4">Không có mặt hàng nào trong giỏ</h2>
-          </div>
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Không có mặt hàng nào trong giỏ</h2>
+            </div>
         </div>   		
-    	</div>
+    </div>
 </section>    
 @endif
 @stop

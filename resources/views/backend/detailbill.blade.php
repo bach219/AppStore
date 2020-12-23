@@ -35,7 +35,7 @@
                                         @if($pro->prod_id == $bill->product_id)
                                         <td>{{$pro->prod_id}}</td>
                                         <td>{{$pro->prod_name}}</td>
-                                        <td><img width="200px" src="{{asset('../storage/app/avatar/'.$pro->prod_img)}}" class="thumbnail"></td>
+                                        <td><img width="200px" src="{{asset('layout/images/avatar/'.$pro->prod_img)}}" class="thumbnail"></td>
                                         <td>{{$pro->prod_price}}</td>
                                         @endif
                                         @endforeach

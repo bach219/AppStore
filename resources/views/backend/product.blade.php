@@ -10,6 +10,10 @@
 
     <h1 class="h3 mb-4 text-gray-800">Danh sách sản phẩm</h1>
     <a href="{{asset('admin/product/add')}}" class="btn btn-primary">Thêm sản phẩm</a>
+    <a class="btn btn-info" href="{{asset('admin/gallery')}}">
+        <i style="font-size: 20px;" class="fas fa-camera-retro"></i>
+        <span>Kho ảnh</span>
+    </a>
     <br><br>
     <div class="row">
 
@@ -30,6 +34,7 @@
                                     <th width="20%">Tên Sản phẩm</th>
                                     <th>Giá sản phẩm</th>
                                     <th width="20%">Ảnh sản phẩm</th>
+                                    <th>Hãng</th>
                                     <th>Danh mục</th>
                                     <th>Có sẵn</th>
                                     <th>Đã bán</th>
@@ -43,9 +48,14 @@
                                     <td>{{$prod->prod_name}}</td>
                                     <td>{{number_format($prod->prod_price,0,',','.')}} VND</td>
                                     <td>
-                                        <img width="200px" src="{{asset('/../storage/app/avatar/'.$prod->prod_img)}}" class="thumbnail">
+                                        <img width="200px" src="{{asset('layout/images/avatar/'.$prod->prod_img)}}" class="thumbnail">
                                     </td>
                                     <td>{{$prod->cate_name}}</td>
+                                    @foreach($function as $func)
+                                    @if($func->func_id == $prod->prod_func)
+                                        <td>{{$func->func_name}}</td>
+                                    @endif
+                                    @endforeach
                                     <td>{{$prod->prod_qty}}</td>
                                     <?php $i = 0; ?>
                                     @foreach($slg as $qua)
@@ -59,6 +69,7 @@
                                     <td>
                                         <a href="{{asset('admin/product/edit/'.$prod->prod_id)}}" class="btn btn-warning"><i class="far fa-edit"></i> Sửa</a>
                                         <a href="{{asset('admin/product/delete/'.$prod->prod_id)}}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" class="btn btn-danger"><i class="fa fa-trash glyphicon glyphicon-trash" aria-hidden="true"></i> Xóa</a>
+                                        {{-- <a href="{{asset('admin/gallery')}}" class="btn btn-info"><i class="fas fa-camera-retro"></i> Ảnh</a>              --}}
                                     </td>
                                 </tr>
                                 @endforeach

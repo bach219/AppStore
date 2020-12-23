@@ -10,6 +10,7 @@ use App\Model\Bill;
 use App\Model\Bill_Detail;
 use App\Model\Product;
 use App\Model\Contact;
+use Auth;
 
 class CommentController extends Controller {
 
@@ -39,9 +40,12 @@ class CommentController extends Controller {
 
     public function postEditComment(Request $request, $id) {
         try {
+            if($request->reply == '')
+                return back()->with('error', 'Chưa nhập phản hồi!');
             $comment = new Comment;
             $arr['com_check'] = $request->check;
             $arr['com_reply'] = $request->reply;
+            $arr['com_user'] = Auth::user()->id;
             $comment::where('com_id', $id)->update($arr);
             return back()->with('success', 'Phản hồi bình luận thành công!');
         } catch (ModelNotFoundException $e) {

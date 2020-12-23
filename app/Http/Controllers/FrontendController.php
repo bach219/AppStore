@@ -27,6 +27,7 @@ use App\Http\Requests\LoginClientRequest;
 use App\Http\Requests\AddCommentRequest;
 use App\Http\Requests\RegisterClientRequest;
 use App\Http\Requests\ShoppingCartRequest;
+use App\Http\Requests\ChangePassRequest;
 use Auth;
 
 class FrontendController extends Controller {
@@ -38,8 +39,8 @@ class FrontendController extends Controller {
                     ->take(12)
                     ->get();
             $data['categories'] = Category::skip(0)->take(6)->get();
-            $data['sale'] = Product::where('prod_sale','>','0')->orderBy('prod_sale','desc')->skip(1)->take(6)->get();
-            $data['best'] = Product::where('prod_sale','>','0')->orderBy('prod_sale','desc')->skip(0)->take(1)->get();
+            $data['sale'] = Product::where('prod_sale', '>', '0')->orderBy('prod_sale', 'desc')->skip(1)->take(6)->get();
+            $data['best'] = Product::where('prod_sale', '>', '0')->orderBy('prod_sale', 'desc')->skip(0)->take(1)->get();
             return view('frontend.home', $data);
         } catch (ModelNotFoundException $e) {
             echo $e->getMessage();
@@ -60,7 +61,7 @@ class FrontendController extends Controller {
         }
     }
 
-    public function postAccount(RegisterRequest $request, $id) {
+    public function postAccount(RegisterRequest $request) {
         try {
             $client = new Client;
             $arr['name'] = $request->name;
@@ -89,7 +90,7 @@ class FrontendController extends Controller {
             $ramGB = array();
             $hardGB = array();
             $gia = array();
-            $sx = '';
+            $sx = array();
             $Products = Product::where('prod_qty', '>', 0)->paginate(12);
             if ($request->price) {
 
@@ -162,17 +163,46 @@ class FrontendController extends Controller {
 
     public function postContact(Request $request) {
         try {
-            $con = new Contact;
-            $con->con_email = $request->email;
-            $con->con_name = $request->name;
-            $con->sex = $request->sex;
-            $con->con_message = $request->mess;
-            if(Auth::guard('clients')->user()){
-                $con->con_img = Auth::guard('clients')->user()->image;
+            if (!Auth::guard('clients')->user())
+                $validator = Validator::make($request->all(), [
+                            'name' => 'required',
+                            'email' => 'required|email',
+                            'sex' => 'required',
+                            'mess' => 'required'
+                                ], [
+                            'name.required' => 'Hãy nhập tên.',
+                            'email.required' => 'Hãy nhập địa chỉ email.',
+                            'sex.required' => 'Hãy nhập địa chỉ email.',
+                            'mess.required' => 'Hãy nhập lời nhắn.',
+                            'email.email' => 'Trường email phải có định dạng email.'
+                ]);
+            else {
+                $validator = Validator::make($request->all(), [
+                            'mess' => 'required'
+                                ], [
+                            'mess.required' => 'Hãy nhập lời nhắn.'
+                ]);
             }
-                
+            if ($validator->fails()) {
+                return back()->withErrors($validator)
+                                ->withInput();
+            }
+
+            $con = new Contact;
+            if (Auth::guard('clients')->user()) {
+                $con->con_email = Auth::guard('clients')->user()->email;
+                $con->con_name = Auth::guard('clients')->user()->name;
+                $con->sex = Auth::guard('clients')->user()->sex;
+                $con->con_img = Auth::guard('clients')->user()->image;
+            } else {
+                $con->con_email = $request->email;
+                $con->con_name = $request->name;
+                $con->sex = $request->sex;
+            }
+            $con->con_message = $request->mess;
             $con->save();
-            return back()->with('success', 'Liên hệ thành công');
+            
+            return back()->with('success', 'Cảm ơn bạn vì lời nhắn. Chúng tôi sẽ cố gắng phản hồi sớm nhất!');
         } catch (ModelNotFoundException $e) {
             echo $e->getMessage();
         }
@@ -192,10 +222,14 @@ class FrontendController extends Controller {
             $data['images'] = Product::join('vp_galleries', 'vp_products.prod_id', '=', 'vp_galleries.product_id')
                     ->select('prod_id', 'image')
                     ->where('prod_id', $id)
+                    ->take(6)
                     ->get();
             $data['countImg'] = Gallery::where('product_id', $id)->count();
             $data['detail'] = Product::find($id);
-            $data['comments'] = Comment::where('com_product', $id)->get();
+            $data['comments'] = Comment::join('users', 'users.id', '=', 'vp_comment.com_user')
+                    ->where('vp_comment.com_product', $id)
+                    ->select('vp_comment.*', 'users.name', 'users.level', 'users.image')
+                    ->get();
             $data['count'] = Comment::where([
                         ['com_product', '=', $id],
                         ['com_check', '=', 1]
@@ -225,15 +259,41 @@ class FrontendController extends Controller {
         }
     }
 
-    public function postComment(AddCommentRequest $request, $id) {
+    public function postComment(Request $request, $id) {
         try {
+            if (!Auth::guard('clients')->user())
+                $validator = Validator::make($request->all(), [
+                            'email' => 'required|email',
+                            'content' => 'required',
+                            'name' => 'required',
+                                ], [
+                            'name.required' => 'Hãy nhập tên.',
+                            'email.required' => 'Hãy nhập Email.',
+                            'email.email' => 'Hãy nhập đúng định dạng Email.',
+                            'content.required' => 'Hãy nhập bình luận.'
+                ]);
+            else {
+                $validator = Validator::make($request->all(), [
+                            'content' => 'required'
+                                ], [
+                            'content.required' => 'Hãy nhập bình luận.'
+                ]);
+            }
+            if ($validator->fails()) {
+                return back()->withErrors($validator)
+                                ->withInput();
+            }
+
             $com = new Comment;
             if (Auth::guard('clients')->user()) {
                 $filename = Auth::guard('clients')->user()->image;
                 $com->com_image = $filename;
+                $com->com_name = Auth::guard('clients')->user()->name;
+                $com->com_email = Auth::guard('clients')->user()->email;
+            } else {
+                $com->com_name = $request->name;
+                $com->com_email = $request->email;
             }
-            $com->com_name = $request->name;
-            $com->com_email = $request->email;
             $com->com_content = $request->content;
             $com->com_product = $id;
             $com->save();
@@ -246,7 +306,7 @@ class FrontendController extends Controller {
     public function getSearch(Request $request) {
         try {
             $result = $request->result;
-            $result = str_replace(' ', '%', $result);
+            $result = str_replace('%20s', ' ', $result);
             $data['product'] = Product::where('prod_name', 'like', '%' . $result . '%')
                     ->join('vp_categories', 'vp_products.prod_cate', '=', 'vp_categories.cate_id')
                     ->orWhere('vp_categories.cate_name', 'like', '%' . $result . '%')
@@ -271,10 +331,15 @@ class FrontendController extends Controller {
     public function clientLogin(LoginClientRequest $request) {
         try {
             $arr = ['email' => $request->email, 'password' => $request->password];
+            $email = Client::where('email', '=', $request->email)->count();
             if (Auth::guard('clients')->attempt($arr, true)) {
-                return redirect('account/' . Auth::guard('clients')->user()->id);
+                return redirect('account/'.Auth::guard('clients')->user()->id);
             }
-            return back()->with('error', 'Tài khoản hoặc mật khẩu chưa đúng');
+            elseif ($email != 0) {
+                return back()->with('error', 'Mật khẩu chưa đúng.');
+            }
+            else 
+            return back()->with('error', 'Tài khoản không tồn tại.');
         } catch (ModelNotFoundException $e) {
             echo $e->getMessage();
         }
@@ -296,11 +361,10 @@ class FrontendController extends Controller {
     }
 
     public function postRegister(RegisterClientRequest $request) {
-        if ($request['password'] != $request['passwordVerify'])
-            return back()->with('error', 'Yêu cầu xác minh lại mật khẩu chưa đúng');
-        else {
-
-            try {
+        try {
+            if ($request['password'] != $request['passwordVerify']) {
+                return back()->with('error', 'Xác nhận mật khẩu chưa đúng.');
+            }
                 $client = Client::create([
                             'name' => $request['name'],
                             'email' => $request['email'],
@@ -309,10 +373,34 @@ class FrontendController extends Controller {
                             'address' => $request['address'],
                             'sex' => $request['sex']
                 ]);
-                return redirect()->intended('clientLogin');
+                return redirect('clientLogin')->with('success','Đăng ký tài khoản thành công.  Vui lòng đăng nhập lại.');
             } catch (ModelNotFoundException $e) {
                 echo $e->getMessage();
             }
+    }
+
+    public function getPass() {
+        return view('frontend.repass');
+    }
+
+    public function postPass(ChangePassRequest $request) {
+        try {
+            $client = new Client;
+            $arr1['password'] = Hash::make($request->newpass);
+            $arr = ['email' => Auth::guard('clients')->user()->email, 'password' => $request->oldpass];
+            if (Auth::guard('clients')->attempt($arr, true)) {
+                if ($request->newpass == $request->repass) {
+                    $client::where('id', Auth::guard('clients')->user()->id)->update($arr1);
+                    return back()->with('success', 'Thay đổi mật khẩu thành công.');
+                }
+                else 
+                    return back()->with('error', 'Xác nhận mật khẩu mới chưa đúng.');
+            }
+            else {
+                return back()->with('error', 'Mật khẩu hiện tại chưa đúng.');
+            }
+        } catch (ModelNotFoundException $e) {
+            echo $e->getMessage();
         }
     }
 

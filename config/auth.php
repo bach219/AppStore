@@ -42,14 +42,13 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'jwt',
+            'provider' => 'clients',
         ],
         'clients' => [
             'driver' => 'session',
             'provider' => 'clients',
         ],
-        
     ],
 
     /*

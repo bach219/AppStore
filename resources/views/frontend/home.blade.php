@@ -101,7 +101,7 @@
             <div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
                 <div class="product d-flex flex-column">
                     <a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="img-prod">
-                        <img class="img-fluid" src="{{asset('/../storage/app/avatar/'.$featured->prod_img)}}" alt="Colorlib Template">
+                        <img class="img-fluid" src="{{asset('layout/images/avatar/'.$featured->prod_img)}}" alt="Colorlib Template">
                         <div class="overlay"></div>
                         @if($featured->prod_sale > 0)
                         <span class="status">{{$featured->prod_sale}}% Off</span>
@@ -156,14 +156,70 @@
     </div>
 </section>
 
+<section class="ftco-section ftco-choose ftco-no-pb ftco-no-pt">
+    	<div class="container">
+				<div class="row no-gutters">
+					<div class="col-lg-4">
+						<div class="choose-wrap divider-one img p-5 d-flex align-items-end" style="background-image: url(images/choose-1.jpg);">
 
+    					<div class="text text-center text-white px-2">
+								<span class="subheading">Men's Shoes</span>
+    						<h2>Men's Collection</h2>
+    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+    					</div>
+    				</div>
+					</div>
+					<div class="col-lg-8">
+    				<div class="row no-gutters choose-wrap divider-two align-items-stretch">
+    					<div class="col-md-12">
+	    					<div class="choose-wrap full-wrap img align-self-stretch d-flex align-item-center justify-content-end" style="background-image: url(images/choose-2.jpg);">
+	    						<div class="col-md-7 d-flex align-items-center">
+	    							<div class="text text-white px-5">
+	    								<span class="subheading">Women's Shoes</span>
+			    						<h2>Women's Collection</h2>
+			    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+			    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+			    					</div>
+	    						</div>
+	    					</div>
+	    				</div>
+    					<div class="col-md-12">
+    						<div class="row no-gutters">
+    							<div class="col-md-6">
+		    						<div class="choose-wrap wrap img align-self-stretch bg-light d-flex align-items-center">
+		    							<div class="text text-center px-5">
+		    								<span class="subheading">Summer Sale</span>
+				    						<h2>Extra 50% Off</h2>
+				    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+				    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+				    					</div>
+		    						</div>
+	    						</div>
+	    						<div class="col-md-6">
+		    						<div class="choose-wrap wrap img align-self-stretch d-flex align-items-center" style="background-image: url(images/choose-3.jpg);">
+		    							<div class="text text-center text-white px-5">
+		    								<span class="subheading">Shoes</span>
+				    						<h2>Best Sellers</h2>
+				    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+				    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+				    					</div>
+		    						</div>
+	    						</div>
+	    					</div>
+    					</div>
+    				</div>
+    			</div>
+  			</div>
+    	</div>
+    </section>
 
 <section class="ftco-section ftco-deal bg-primary">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <a href="{{asset('detail/'.$best[0]->prod_id.'/'.$best[0]->prod_slug.'.html')}}">
-                    <img src="{{asset('../storage/app/avatar/'.$best[0]->prod_img)}}" class="img-fluid" alt="Siêu phẩm">
+                    <img src="{{asset('layout/images/avatar/'.$best[0]->prod_img)}}" class="img-fluid" alt="Siêu phẩm">
                 </a>
             </div>
             <div class="col-md-6">
@@ -185,7 +241,7 @@
                     </p>
                     <ul class="thumb-deal d-flex mt-4">
                         @foreach($sale as $sa)
-                        <a href="{{asset('detail/'.$sa->prod_id.'/'.$sa->prod_slug.'.html')}}"><li class="img" style="background-image: url({{asset('../storage/app/avatar/'.$sa->prod_img)}});"></li></a>
+                        <a href="{{asset('detail/'.$sa->prod_id.'/'.$sa->prod_slug.'.html')}}"><li class="img" style="background-image: url({{asset('layout/images/avatar/'.$sa->prod_img)}});"></li></a>
 <!--                        <li class="img" style="background-image: url(images/product-2.png);"></li>
                         <li class="img" style="background-image: url(images/product-4.png);"></li>-->
                         @endforeach
@@ -281,7 +337,7 @@
                                 </span>
                             </div>
                             <div class="text">
-                                <p class="mb-4 pl-4 line">Đéo biét 🙂</p>
+                                <p class="mb-4 pl-4 line">Rất OK</p>
                                 <p class="name">Phương Phạm</p>
                                 <span class="position">Interface Designer</span>
                             </div>
@@ -335,8 +391,8 @@
         <div class="row no-gutters">
             @foreach($categories as $cate)
             <div class="col-md-4 col-lg-2 ftco-animate">
-                <a href="{{asset('/../storage/app/avatarCategory/'.$cate->cate_image)}}" class="gallery image-popup img d-flex align-items-center" style="background-image: url({{asset('/../storage/app/avatarCategory/'.$cate->cate_image)}});">
-                    <!-- <img width="100%" class="gallery image-popup img d-flex align-items-center" src="{{asset('/../storage/app/avatarCategory/'.$cate->cate_image)}}" alt="Colorlib Template"> -->
+                <a href="{{asset('layout/images/avatarCategory/'.$cate->cate_image)}}" class="gallery image-popup img d-flex align-items-center" style="background-image: url({{asset('layout/images/avatarCategory/'.$cate->cate_image)}});">
+                    <!-- <img width="100%" class="gallery image-popup img d-flex align-items-center" src="{{asset('layout/images/avatarCategory/'.$cate->cate_image)}}" alt="Colorlib Template"> -->
                     <div class="icon mb-4 d-flex align-items-center justify-content-center">
                         <span class="icon-facebook"></span>
                     </div>
@@ -386,7 +442,7 @@
 @push('scripts')
 
 <script>
-    var countDownDate = new Date("Jan 1, 2020 00:00:00").getTime();
+    var countDownDate = new Date("September 1, 2020 00:00:00").getTime();
 
 // Update the count down every 1 second
     var x = setInterval(function () {

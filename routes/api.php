@@ -13,6 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('signup', 'ApiController@register'); 
+Route::post('login', 'ApiController@login');
+
+Route::middleware(['assign.guard:api','jwt.auth'])->group( function () { 
+    Route::get('client', 'ApiController@client'); 
+    Route::post('logout', 'ApiController@logout'); 
 });
+
+Route::middleware('jwt.refresh')->get('/token/refresh', 'ApiController@refresh');

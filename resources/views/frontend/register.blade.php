@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title', 'Đăng nhập')	
+@section('title', 'Đăng ký người dùng')	
 @section('main')
 
 <div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
@@ -25,52 +25,52 @@
                     <div class="col-md-12">
                             <div class="form-group">
                                 <div class="radio" >
-                                    <label class="mr-3"><input type="radio" name="sex" value="Nam" required> Anh </label>
-                                    <label><input type="radio" name="sex" value="Nữ" required> Chị</label>
+                                    <label class="mr-3"><input type="radio" name="sex" value="Nam" id="nam"> Anh </label>
+                                    <label><input type="radio" name="sex" value="Nữ" id="nu"> Chị</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Tên đăng nhập</label>
-                                <input type="text" name="name" class="form-control" placeholder="Your name" required>
+                                <input type="text" name="name" class="form-control" placeholder="Họ tên" >
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Mật khẩu</label>
-                                <input type="password" name="password" id="pass" class="form-control" placeholder="*****" required>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="*****" >
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Xác nhận mật khẩu</label>
-                                <input type="password" name="passwordVerify" id="passVer" class="form-control" placeholder="*****" required>
+                                <input type="password" name="passwordVerify" id="passwordVerify" class="form-control" placeholder="*****" >
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Địa chỉ nhận hàng</label>
-                                <textarea name="address" class="form-control" placeholder="House number and street name" cols="30" rows="5" required></textarea>
+                                <textarea name="address" class="form-control" placeholder="House number and street name" cols="30" rows="5" ></textarea>
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Số điện thoại liên lạc</label>
-                                <input type="number" name="phone" class="form-control" placeholder="Phone number" maxlength="10" minlength="10" required>
+                                <input type="number" name="phone" class="form-control" placeholder="Phone number" maxlength="10" minlength="10" >
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Địa chỉ Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email" required>
+                                <input type="email" name="email" class="form-control" placeholder="VD: ahihi@gmail.com" >
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div><br>
-                                <input type="submit" id="register" value="Đăng ký" class="btn btn-primary py-3 px-10 col-md-12">
+                                <input type="submit" id="register" name="register" value="Đăng ký" class="btn btn-primary py-3 px-10 col-md-12">
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
     </div>
 </section>
 @stop
-
+{{-- 
 @push('scripts')
 <script>
 
@@ -97,4 +97,4 @@
     });
 
 </script>
-@endpush
+@endpush --}}

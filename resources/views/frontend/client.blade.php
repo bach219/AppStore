@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{{$client->id}}</td>
                                     <td>{{$client->name}}</td>
-                                    <td><img width="200px" src="{{asset('/../storage/app/avatarClient/'.$client->image)}}" class="thumbnail"></td>
+                                    <td><img width="200px" src="{{asset('layout/images/avatarClient/'.$client->image)}}" class="thumbnail"></td>
                                     <td>{{$client->email}}</td>
                                     <td>{{$client->phone}}</td>
                                     <td>{{$client->address}}</td>

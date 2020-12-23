@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// --------------------------------------------------------Backend---------------------------------------------------------
+Route::group(['prefix'=>'ajax'], function(){
+     Route::get('filterProduct/{price}/{cate}/{ram}/{drive}/{soft}', 'AjaxController@filterProduct');
+  });
+
 
 // --------------------------------------------------------Backend---------------------------------------------------------
 Route::group(['namespace'=>'Admin'], function(){
@@ -23,9 +28,10 @@ Route::group(['namespace'=>'Admin'], function(){
   Route::group(['prefix'=>'admin', 'middleware' => 'CheckLogedOut'], function(){
         Route::get('home', 'HomeController@getHome');
 
-        Route::group(['prefix'=>'category'], function(){
+        Route::group(['prefix'=>'category', 'middleware' => 'CheckAdmin'], function(){
                  Route::get('/', 'CategoryController@getCategory');
-
+                 Route::post('/', 'FunctionalityController@postFunctionality');
+                 
                  Route::get('add', 'CategoryController@getAddCategory');
                  Route::post('add', 'CategoryController@postAddCategory');
 
@@ -33,9 +39,16 @@ Route::group(['namespace'=>'Admin'], function(){
                  Route::post('edit/{id}', 'CategoryController@postEditCategory');
 
                  Route::get('delete/{id}', 'CategoryController@getDeleteCategory');
+                 Route::get('delete/functionality/{id}', 'FunctionalityController@getDeleteFunctionality');
         }); 
 
-        Route::group(['prefix'=>'product'], function(){
+        // Route::group(['prefix'=>'functionality', 'middleware' => 'CheckAdmin'], function(){
+        //         //  Route::get('/add', 'functionalityController@getAddFunctionality');
+        //         //  Route::get('/edit/{$id}', 'functionalityController@postFunctionality');
+        //          Route::get('delete/{$id}', 'FunctionalityController@getDeleteFunctionality');
+        // }); 
+
+        Route::group(['prefix'=>'product', 'middleware' => 'CheckAdmin'], function(){
                  Route::get('/', 'ProductController@getProduct');
 
                  Route::get('add', 'ProductController@getAddProduct');
@@ -59,8 +72,14 @@ Route::group(['namespace'=>'Admin'], function(){
      
                  Route::get('delete/{id}', 'UserController@getDeleteUser')->middleware('CheckAdmin');
         }); 
+
+        Route::group(['prefix'=>'sale'], function(){
+                 Route::get('/', 'SaleController@getSale');
+                 Route::get('detail', 'SaleController@getDetail');
+        }); 
+
         Route::group(['prefix'=>'customer'], function(){
-          Route::get('/', 'CustomerController@getCustomer');
+          Route::get('/', 'CustomerController@getCustomer')->middleware('CheckAdmin');
 
           Route::get('verify/{id}', 'CustomerController@getVerify');
 
@@ -70,7 +89,7 @@ Route::group(['namespace'=>'Admin'], function(){
         }); 
 
         Route::group(['prefix'=>'client'], function(){
-          Route::get('/', 'ClientController@getClient');
+          Route::get('/', 'ClientController@getClient')->middleware('CheckAdmin');
 
           Route::get('edit/{id}', 'ClientController@getEditClient');
 
@@ -123,6 +142,7 @@ Route::get('/', 'FrontendController@getHome');
 
 Route::group(['prefix' => 'shop'], function(){
   Route::get('/', 'FrontendController@getShop');
+  Route::get('/{func_id}', 'ShopController@getShop');
   // Route::post('/', 'FrontendController@postShop');
 });
 
@@ -149,6 +169,8 @@ Route::group(['middleware' => 'CheckClientIn'], function(){
 Route::group(['middleware' => 'CheckClientOut'], function(){
     Route::get('account/{id}', 'FrontendController@getAccount');
     Route::post('account/{id}', 'FrontendController@postAccount');
+    Route::get('repass', 'FrontendController@getPass');
+    Route::post('repass', 'FrontendController@postPass');
     Route::get('/auth/{provider}', 'SocialAuthController@redirectToProvider');
     Route::get('/auth/{provide}/callback', 'SocialAuthController@handleProviderCallback');
     Route::get('outLogin', 'FrontendController@outLogin');
@@ -160,7 +182,7 @@ Route::group(['prefix' => 'cart'], function(){
   Route::get('add/{id}','CartController@getAddCart');
   Route::get('show','CartController@getShowCart');
   Route::get('delete/{id}','CartController@getDeleteCart');
-  Route::get('update','CartController@getUpdateCart');
+  Route::get('update/{qty}/{rowId}/{slg}/{name}/{id}','CartController@getUpdateCart');
   Route::group(['middleware' => 'CheckCart'], function(){
       Route::get('checkout','CartController@getCheckout');
       Route::post('checkout','CartController@postCheckout');

@@ -16,7 +16,14 @@
     	<div class="container">
 				<div class="row justify-content-center mb-3 pb-3">
           <div class="col-md-12 heading-section text-center ftco-animate">
-            <h2 class="mb-4">{{$quality}} Kết quả tìm kiếm: <span>{{$search}}</span></h2>
+            <h2 class="mb-4">
+                @if($quality > 0)
+                {{$quality}} Kết quả tìm kiếm: 
+                @else
+                Không tìm thấy kết quả nào:
+                @endif
+                <span>{{$search}}</span>
+            </h2>
           </div>
         </div>   		
     	</div>
@@ -25,7 +32,7 @@
 			@foreach($product as $featured)
     			<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
     				<div class="product d-flex flex-column">
-    					<a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="img-prod"><img class="img-fluid" src="{{asset('/../storage/app/avatar/'.$featured->prod_img)}}" alt="Colorlib Template">
+    					<a href="{{asset('detail/'.$featured->prod_id.'/'.$featured->prod_slug.'.html')}}" class="img-prod"><img class="img-fluid" src="{{asset('layout/images/avatar/'.$featured->prod_img)}}" alt="Colorlib Template">
     						<div class="overlay"></div>
     					</a>
     					<div class="text py-3 pb-4 px-3">

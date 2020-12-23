@@ -2,7 +2,7 @@
 @section('title', 'Khách hàng')	
 @section('main')
 <div class="panel panel-primary">
-    <h1 class="h3 mb-4 text-gray-800">Danh sách khách hàng</h1>
+    <h1 class="h3 mb-4 text-gray-800">Danh sách đơn hàng</h1>
     <a style="color: white; background-color: rgb(33,115,70);" onclick="tableToExcel('customer', 'W3C_Example_Table')" value="Export to Excel" class="btn btn-primary"><i class="fas fa-file-excel"></i> Xuất Excel</a>
     <br><br>
     <div class="row">
@@ -11,7 +11,7 @@
             <!-- Circle Buttons -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Danh sách khách hàng</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn</h6>
 
                 </div>
                 <div class="card-body">
@@ -20,12 +20,10 @@
                         @include('errors.note')
                             <thead>
                                 <tr class="text-primary">
-                                    <th>ID</th>
+                                    <th>Mã khách hàng</th>
                                     <th>Họ và tên</th>
-                                    <th>Giới tính</th>
-                                    <th>Email</th>
-                                    <th>Điện thoại</th>
-                                    <th>Xác nhận</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Tình trạng</th>
                                     <th width="20%">Tùy chọn</th>
                                 </tr>
                             </thead>
@@ -35,13 +33,26 @@
                                 <tr>
                                     <td>{{$cus->id}}</td>
                                     <td>{{$cus->name}}</td>
-                                    <td>{{$cus->sex}}</td>
-                                    <td>{{$cus->con_email}}</td>
-                                    <td>{{$cus->phone_number}}</td>
+                                    <td>
+                                        @foreach($billDetailList as $detail)
+                                            @if($cus->bill_id == $detail->bill_id)
+                                                {{$detail->prod_name}}
+                                                @break
+                                            @endif
+                                        @endforeach
+                                         
+                                        @foreach($countDetailBill as $count)
+                                            @if($cus->bill_id == $count->bill_id)
+                                                @if($count->product_count > 1)
+                                                    ... và {{$count->product_count - 1}} sản phẩm khác
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     @if($cus->bill_check == 1)
-                                    <td>Có</td>
+                                    <td style="color: green;">Xác nhận</td>
                                     @else
-                                    <td>Chưa</td>
+                                    <td style="color: blue;">Đang chờ... </td>
                                     @endif
                                     <td>
                                         <a href="{{asset('admin/customer/edit/'.$cus->id)}}" class="btn btn-warning"><i class="far fa-edit"></i></i> Chi tiết</a>

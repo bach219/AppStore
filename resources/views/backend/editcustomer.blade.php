@@ -2,13 +2,15 @@
 @section('title', 'Xác nhận đơn hàng')
 @section('main')
 
-<h1 class="h3 mb-4 text-gray-800">Thông tin khách hàng</h1>
+<h1 class="h3 mb-4 text-gray-800">Thông tin hóa đơn</h1>
 <a style="color: white; background-color: rgb(33,115,70);" onclick="tableToExcel('testTable', 'W3C_Example_Table')" value="Export to Excel" class="btn btn-primary"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+
 @foreach($customer as $cus)
     @if($cus->bill_check == 0)
         <a style="color: white; cursor:pointer;" class="btn btn-info" href="{{asset('admin/customer/verify/'.$cus->id)}}">Xác nhận</a><br><br>
     @endif
 @endforeach
+
 <br><br>
 @include('errors.note')
 <br><br>
@@ -46,7 +48,7 @@
                                     @foreach($product as $pro)
                                     @if($pro->prod_id == $bill->product_id)
                                     <td>{{$pro->prod_name}}</td>
-                                    <td><img width="200px" src="{{asset('/../storage/app/avatar/'.$pro->prod_img)}}" class="thumbnail"></td>
+                                    <td><img width="200px" src="{{asset('layout/images/avatar/'.$pro->prod_img)}}" class="thumbnail"></td>
                                     @endif
                                     @endforeach
                                     <td>{{$bill->quantity}}</td>

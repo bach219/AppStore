@@ -37,9 +37,9 @@
                                     <td>{{$client->name}}</td>
                                     <td>
                                         @if($client->image)
-                                        <img width="200px" src="{{asset('/../storage/app/avatarClient/'.$client->image)}}" class="thumbnail">
+                                        <img width="200px" src="{{asset('layout/images/avatarClient/'.$client->image)}}" class="thumbnail">
                                         @else
-                                        <img width="200px" src="{{asset('/../storage/app/avatarClient/noOne.png')}}" class="thumbnail">
+                                        <img width="200px" src="{{asset('layout/images/avatarClient/noOne.png')}}" class="thumbnail">
                                         @endif
                                     </td>
                                     <td>{{$client->email}}</td>

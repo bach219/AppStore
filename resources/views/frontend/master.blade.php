@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <base href={{asset('../public/layout/frontend')}}/">
+        <base href={{asset('layout/frontend')}}/">
         <meta charset="utf-8">
         <title>Bach's Shop - @yield('title')</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,15 +29,78 @@
         <link rel="stylesheet" href="css/style.css">
 
         <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
-
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
         <style>
            .ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
                font-size: 12px;
             }
             #more {display: none;}
+            .hero-wrap {
+                background-position: center center;
+            }
+
+           
+             .sidenavAd{
+                width: 14%;
+                height: 70%;
+                z-index: 1;
+                position: fixed;
+                top: 15%;
+                padding: 15% 0;
+                background-position: center; 
+            }
+
+            .side1{
+                left: 10px;
+            }
+            .side2{
+                right: 10px; 
+            }
+            @media screen and (max-width: 1550px) {
+            .sidenavAd {
+                width: 10px;
+                display: none;
+            }
+            .side1{
+                    left: 0px;
+                }
+            .side2{
+                right: 0px; 
+            }
+            }
+            @media screen and (max-width: 1920px) {
+            .sidenavAd {
+                width: 14%;
+                height: 70%;
+            }
+            }
+            
+            }
        </style>
     </head>
     <body class="goto-here">
+        <section class="ftco-section ftco-no-pt ftco-no-pb bg-light">
+        {{-- <div class="sidenavAd side1 " style="background-image: url(images/mausac_light_grey_10s20pfo014__4__d9aee8b4f63242cb9063f4be9a470977_master.jpg); background-size: cover;">
+
+            <div class="text text-center text-white px-2">
+                    <span class="subheading">Routine</span>
+                <h2>Men's Collection</h2>
+                <p>Quần Vải Nam Form Slim Crop 10S20PFO014.</p>
+                <p><a class="btn btn-black px-3 py-2">Shop now</a></p>
+            </div>
+        </div> 
+        
+        <div class="sidenavAd side2" style="background-image: url(images/side.png); background-size: cover;">
+
+            <div class="text text-center text-white px-2">
+                    <span class="subheading">Routine</span>
+                <h2>Men's Collection</h2>
+                <p>Quần tây trơn lưng thun - 10F20PFO003.</p>
+                <p><a class="btn btn-black px-3 py-2">Shop now</a></p>
+            </div>
+        </div> --}}
+        </section>
         <div class="py-1 bg-black">
             <div class="container">
                 <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
@@ -52,7 +115,10 @@
                                 <span class="text">nguyenvanbach579@gmail.com</span>
                             </div>
                             <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-                                <span class="text">Giao hàng &amp; Hoàn trả từ 3-5 ngày</span>
+                                <span class="text">
+                                    <span class="icon-bank"></span>
+                                    <span class="text">NGUYỄN VĂN BÁCH: MBBank-0020184764009</span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -69,13 +135,23 @@
                     <div class="form-group has-success has-feedback">
                         <div style="height: 20px;"></div>
                         <input type="text" class="form-control" placeholder="Tìm kiếm" name="result" id="myInput">
+                        
                         <h4><span class="icon ion-ios-search" style="height: 20px;"></span></h4>
                     </div>
                 </form> 
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a href="{{asset('/')}}" class="nav-link">TRANG CHỦ</a></li>
-                        <li class="nav-item"><a href="{{asset('shop')}}" class="nav-link">GIAN HÀNG</a></li>                          
+                        <!-- <li class="nav-item"><a href="{{asset('shop')}}" class="nav-link">GIAN HÀNG</a></li>   -->
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">GIAN HÀNG</a>
+                          <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{{asset('shop')}}" ><span class="icon-account"></span> Tổng hợp</a>
+                            @foreach($functionPro as $func)
+                                <a class="dropdown-item" href="{{asset('shop/'.$func->func_id)}}" ><span class="icon-account"></span> {{$func->func_name}}</a>
+                            @endforeach
+                          </div>
+                        </li>                        
                         <!-- <li class="nav-item"><a href="{{asset('about')}}" class="nav-link">GIỚI THIỆU</a></li> -->
                         <!-- <li class="nav-item"><a href="{{asset('blog')}}" class="nav-link">TIN TỨC</a></li> -->
                         <li class="nav-item"><a href="{{asset('contact')}}" class="nav-link">LIÊN HỆ</a></li>
@@ -104,6 +180,7 @@
                 </div>
             </div>
         </nav>
+        
         <!-- END nav -->
 
 
@@ -111,6 +188,8 @@
         @yield('main')
         <!-- end main -->
 
+        
+        
         <footer class="ftco-footer ftco-section">
             <div class="container">
                 <div class="row">

@@ -24,7 +24,7 @@ class EditUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'mail'=>'unique:users,email,'.Auth::user()->id.',id'
+            'mail'=>'unique:users,email,'.$this->segment(4).',id'
         ];
     }
     public function messages()

@@ -23,11 +23,11 @@
 									</div>
 									<div class="form-group" >
 										<label>RAM(GB)</label>
-										<input required type="number" name="ram" class="form-control" value="{{$product->prod_ram}}">
+										<input  type="number" name="ram" class="form-control" value="{{$product->prod_ram}}">
 									</div>
 									<div class="form-group" >
 										<label>Bộ nhớ trong(GB)</label>
-										<input required type="number" name="hard" class="form-control" value="{{$product->prod_hardDrive}}">
+										<input  type="number" name="hard" class="form-control" value="{{$product->prod_hardDrive}}">
 									</div>
 									<div class="form-group" >
 										<label>Giá sản phẩm</label>
@@ -40,11 +40,11 @@
 									<div class="form-group" >
 										<label>Ảnh sản phẩm</label>
 										<input id="img" type="file" name="img" >
-					                    <img id="avatar" class="thumbnail" width="300px" src="{{asset('../storage/app/avatar/'.$product->prod_img)}}">
+					                    <img id="avatar" class="thumbnail" width="300px" src="{{asset('layout/images/avatar/'.$product->prod_img)}}">
 									</div>
 									<div class="form-group" >
 										<label>Phụ kiện</label>
-										<input required type="text" name="accessories" class="form-control" value="{{$product->prod_accessories}}">
+										<input  type="text" name="accessories" class="form-control" value="{{$product->prod_accessories}}">
 									</div>
 									<div class="form-group" >
 										<label>Bảo hành</label>
@@ -56,7 +56,7 @@
 									</div>
 									<div class="form-group" >
 										<label>Tình trạng</label>
-										<input required type="text" name="condition" class="form-control" value="{{$product->prod_condition}}">
+										<input  type="text" name="condition" class="form-control" value="{{$product->prod_condition}}">
 									</div>
 									<div class="form-group" >
 										<label>Số lượng</label>
@@ -67,12 +67,20 @@
 										<textarea class="ckeditor" required name="description">{{$product->prod_description}}</textarea>
 									</div>
 									<div class="form-group" >
-										<label>Danh mục</label>
+										<label>Thương hiệu</label>
 										<select required name="cate" class="form-control">
 											@foreach($category as $cate)
 											<option value="{{$cate->cate_id}}" @if($product->prod_cate == $cate->cate_id) selected @endif>{{$cate->cate_name}}</option>
 											@endforeach
-					                    </select>
+					          </select>
+									</div>
+									<div class="form-group" >
+										<label>Danh mục</label>
+										<select required name="func" class="form-control">
+											@foreach($function as $func)
+											<option value="{{$func->func_id}}" @if($product->prod_func == $func->func_id) selected @endif>{{$func->func_name}}</option>
+											@endforeach
+					          </select>
 									</div>
 									<div class="form-group" >
 										<label>Sản phẩm nổi bật</label><br>

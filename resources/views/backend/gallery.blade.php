@@ -32,7 +32,7 @@
                                 <tr>
                                     <td>{{$gal->id}}</td>
                                     <td>{{$gal->prod_name}}</td>
-                                    <td><img width="200px" src="{{asset('/../storage/app/avatar/'.$gal->image)}}" class="thumbnail"></td>
+                                    <td><img width="200px" src="{{asset('layout/images/avatar/'.$gal->image)}}" class="thumbnail"></td>
                                     <td>{{$gal->product_id}}</td>
                                     <td>
                                         <a href="{{asset('admin/gallery/edit/'.$gal->id)}}" class="btn btn-warning" data-toggle="modal" data-target="#gallery" onclick="myFunctionEdit({{$gal->id}})"><i class="far fa-edit"></i> Sửa</a>
@@ -120,7 +120,7 @@
         <?php foreach($gallery as $gal) {?>
         if(<?php echo $gal->id;?> == x) {
             $("#name").val({{$gal->product_id}});
-            $("#avatar").attr("src","{{asset('/../storage/app/avatar/'.$gal->image)}}");
+            $("#avatar").attr("src","{{asset('layout/images/avatar/'.$gal->image)}}");
             $("#submit").val('Sửa');
             $("#id").val('{{$gal->id}}');
         }

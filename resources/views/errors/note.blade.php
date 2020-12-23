@@ -7,5 +7,5 @@
 @endif
 
 @foreach($errors->all() as $error)
-    <h2><p class="alert alert-danger text-center">{{$error}}</p></h2>
+    <h3><p class="alert alert-danger text-center">{{$error}}</p></h3>
 @endforeach

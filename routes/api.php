@@ -21,8 +21,21 @@ Route::post('signup', 'ApiController@register');
 Route::post('login', 'ApiController@login');
 
 Route::middleware(['assign.guard:api','jwt.auth'])->group( function () { 
-    Route::get('client', 'ApiController@client'); 
+    Route::post('client', 'ApiController@client'); 
     Route::post('logout', 'ApiController@logout'); 
+    Route::post('listProductNew', 'ApiController@listProductNew');
+    Route::post('listProductBestSelling', 'ApiController@listProductBestSelling'); 
+    Route::post('bestSellProduct', 'ApiController@bestSellProduct');
+    Route::post('bestExpensiveProduct', 'ApiController@bestExpensiveProduct');  
+    Route::post('getCategory', 'ApiController@getCategory');  
+    Route::post('getFunctionality', 'ApiController@getFunctionality');  
+    Route::post('productList', 'ApiController@productList');
+    Route::post('getSearch', 'ApiController@getSearch');
+    Route::post('getImage', 'ApiController@getImage');
+    Route::post('getComment', 'ApiController@getComment');
+    Route::post('getDetailProduct', 'ApiController@getDetailProduct');
+    Route::post('getMore', 'ApiController@getMore');
+    
 });
 
 Route::middleware('jwt.refresh')->get('/token/refresh', 'ApiController@refresh');

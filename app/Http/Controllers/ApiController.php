@@ -18,6 +18,8 @@ use App\Model\Category;
 use App\Model\Comment;
 use App\Model\Bill;
 use App\Model\Functionality;
+use App\Model\Customer;
+use App\Model\Bill_Detail;
 use Illuminate\Support\Facades\DB;
 class ApiController extends Controller
 {
@@ -54,7 +56,7 @@ class ApiController extends Controller
         return response()->json([
             'token' => $token,
             'client' => auth('api')->user(),
-            'expired' => auth('api')->factory()->getTTL() * 3600 * 1000 * 24 * 7
+            'expired' => auth('api')->factory()->getTTL() * 3600 * 3600 * 3600 * 3600 * 3600 * 3600 * 3600
         ], 200);
     }
 
@@ -68,6 +70,8 @@ class ApiController extends Controller
 
         return response(null, 400);
     }
+
+
 
     /**
      * Log out
@@ -92,9 +96,51 @@ class ApiController extends Controller
     {
         return response(JWTAuth::getToken(), 200);
     }
+
+    public function postCheckOut(Request $request)
+    {
+        $customer = new Customer;
+        $customer->name = auth('api')->user()->name;
+        $customer->sex = auth('api')->user()->sex;
+        $customer->con_email = auth('api')->user()->email;
+        $customer->address = auth('api')->user()->address;
+        $customer->phone_number = auth('api')->user()->phone;
+        $customer->client_id = auth('api')->user()->id;
+        $customer->save();
+
+        $bill = new Bill;
+        $bill->customer_id = $customer->id;
+        $bill->date_order = $customer->created_at;
+        $bill->total = $request->total;
+        $bill->note = $request->note;
+        $bill->method = "Tiền mặt";
+        $bill->save();
+        
+        $ids = explode(',', $request->id);
+        $qtys = explode(',', $request->qty);
+        $prices = explode(',', $request->price);
+
+        $i = 0;
+        foreach ($ids as $key => $value) {
+            $billDetail = new Bill_Detail;
+            $billDetail->bill_id = $bill->id;
+            $billDetail->product_id = $value;
+            $billDetail->quantity = $qtys[$i];
+            $billDetail->price = $prices[$i];
+            $billDetail->save();
+            $i++;
+        }
+        if ($customer && $bill) {
+            return response($customer, 200);
+        }
+
+        return response(null, 400);
+    }
+
     public function productList(Request $request){
         $Products = Product::join('vp_categories', 'vp_products.prod_cate', '=', 'vp_categories.cate_id')
-                    ->select('vp_products.prod_id', 'vp_products.prod_name', 'vp_products.prod_img', 'vp_products.prod_qty', 'vp_categories.cate_name', 'vp_products.created_at', 'vp_products.prod_sale', 'vp_products.prod_price')
+                    ->join('vp_functionality', 'vp_products.prod_func', '=', 'vp_functionality.func_id')
+                    ->select('vp_products.prod_id', 'vp_products.prod_name', 'vp_products.prod_img', 'vp_products.prod_qty', 'vp_categories.cate_name', 'vp_products.created_at', 'vp_products.prod_sale', 'vp_products.prod_price', 'vp_functionality.func_name')
                     ->latest()->get();
         return response()->json($Products, 200);
     }
@@ -136,6 +182,16 @@ class ApiController extends Controller
         return response()->json($Products, 200);
     }
 
+
+    public function getBestExpensive(Request $request){
+        $Product = Product::select('prod_price')->max('prod_price');
+        return response()->json($Product, 200);
+    }
+
+    public function getCheapest(Request $request){
+        $Product = Product::select('prod_price')->min('prod_price');
+        return response()->json($Product, 200);
+    }
 
     public function getCategory(Request $request){
         $Category = Category::select('cate_id','cate_name','cate_image')->get();
@@ -181,6 +237,7 @@ class ApiController extends Controller
             $Comment = Product::join('vp_comment', 'vp_products.prod_id', '=', 'vp_comment.com_product')
                     ->select('vp_comment.*')
                     ->where('com_product', '=', $id)
+                    ->where('com_check', '=', 1)
                     ->get();
             return response()->json($Comment, 200);
         } catch (ModelNotFoundException $e) {
@@ -202,10 +259,10 @@ class ApiController extends Controller
 
     public function getMore(Request $request) {
         try {
-            $id = $request->id;
+            $company = $request->company;
             $Product = Product::join('vp_categories', 'vp_products.prod_cate', '=', 'vp_categories.cate_id')
                     ->select('vp_products.prod_id', 'vp_products.prod_price', 'vp_products.prod_name', 'vp_products.prod_img', 'vp_products.prod_qty', 'vp_products.prod_sale', 'vp_categories.cate_name')
-                    ->where('prod_cate', '=', $id)
+                    ->where('cate_name', 'like', '%'.$company.'%')
                     ->get();
             return response()->json($Product, 200);
         } catch (ModelNotFoundException $e) {

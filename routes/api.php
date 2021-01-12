@@ -35,7 +35,9 @@ Route::middleware(['assign.guard:api','jwt.auth'])->group( function () {
     Route::post('getComment', 'ApiController@getComment');
     Route::post('getDetailProduct', 'ApiController@getDetailProduct');
     Route::post('getMore', 'ApiController@getMore');
-    
+    Route::post('getBestExpensive', 'ApiController@getBestExpensive');
+    Route::post('getCheapest', 'ApiController@getCheapest');
+    Route::post('postCheckOut', 'ApiController@postCheckOut');
 });
 
 Route::middleware('jwt.refresh')->get('/token/refresh', 'ApiController@refresh');
